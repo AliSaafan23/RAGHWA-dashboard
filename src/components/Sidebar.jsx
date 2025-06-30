@@ -33,8 +33,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
-
-const drawerWidth = 400;
+const drawerWidth = 250;
 
 const menuItems = [
   {
@@ -148,7 +147,7 @@ function Sidebar() {
           // Removed scrollbarColor and related webkit styles from here
           borderColor: "#0a3a7e",
           color: "#fff",
-          borderRadius: "0 16px 16px 0",
+          borderRadius: "16px",
           m: 2,
           p: 3,
           pb: 5,
@@ -192,49 +191,19 @@ function Sidebar() {
           },
         }}
       >
-        <Box sx={{ mb: 6, textAlign: "center" }}>
+        <Box sx={{ mb: 2, textAlign: "center" }}>
           <img
-            src="/صورة1.jpg"
+            src="/logo.png"
             alt="Logo"
             style={{
               width: "80%",
               border: "2px solid rgba(255, 255, 255, 0.2)",
               borderRadius: 20,
               boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-              marginBottom: 20,
             }}
           />
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            bgcolor: "rgba(255, 255, 255, 0.1)",
-            borderRadius: 3,
-            px: 2,
-            py: 1,
-            mb: 4,
-            transition: "all 0.3s ease",
-            "&:hover": {
-              bgcolor: "rgba(255, 255, 255, 0.15)",
-            },
-          }}
-        >
-          <SearchIcon sx={{ color: "#fff", mr: 1 }} />
-          <InputBase
-            placeholder="اوقه التقييم"
-            sx={{
-              color: "#fff",
-              width: "100%",
-              "& input::placeholder": {
-                opacity: 0.7,
-              },
-              textAlign: "right",
-              direction: "rtl",
-            }}
-            inputProps={{ "aria-label": "search" }}
-          />
-        </Box>
+
         {/* Removed maxHeight and overflow properties from List, parent Box handles it */}
         <List sx={{ p: 0 }}>
           {menuItems.map((item) => (
@@ -257,12 +226,20 @@ function Sidebar() {
                   justifyContent: "flex-end", // Align content to the right
                 }}
               >
+                <ListItemIcon
+                  sx={{
+                    color: "#fff",
+                    minWidth: 40,
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
                 <ListItemText
                   primary={item.text}
                   sx={{
                     "& .MuiTypography-root": {
                       fontWeight: "bold",
-                      fontSize: "18px",
+                      fontSize: "14px",
                       fontFamily: "Cairo, sans-serif",
                       textAlign: "right", // Right align text
                     },
@@ -277,15 +254,7 @@ function Sidebar() {
                 )}
 
                 {/* Icon moved to the end and hidden with display: none */}
-                <ListItemIcon
-                  sx={{
-                    color: "#fff",
-                    minWidth: 40,
-                    display: "none", // Hide the icon
-                  }}
-                >
-                  {item.icon}
-                </ListItemIcon>
+                
               </ListItemButton>
               <Collapse
                 in={expandedItem === item.id}
@@ -333,13 +302,11 @@ function Sidebar() {
             </Box>
           ))}
         </List>
-      </Box>
-      {/* This Box will remain fixed at the bottom */}
-      <Box>
+           <Box>
         <Box
           sx={{
             display: "flex",
-            alignItems: "center",
+            justifyContent: "start",
             mb: 2,
             p: 1.5,
             borderRadius: 3,
@@ -348,16 +315,10 @@ function Sidebar() {
             "&:hover": {
               bgcolor: "rgba(255, 255, 255, 0.1)",
             },
-            justifyContent: "flex-end", // Align content to the right
           }}
         >
-          <Box sx={{ textAlign: "right" }}>
-            <Typography fontWeight="bold">Ahnel</Typography>
-            <Typography variant="caption" sx={{ opacity: 0.7 }}>
-              المدير
-            </Typography>
-          </Box>
-          <Avatar
+          <Box sx={{display: "flex"}}>
+               <Avatar
             sx={{
               width: 45,
               height: 45,
@@ -369,6 +330,14 @@ function Sidebar() {
           >
             <PersonIcon />
           </Avatar>
+             <Box sx={{ display: "flex", flexDirection: "column", textAlign: "right" }}> 
+              <Typography fontWeight="bold">ابو زياد</Typography>
+            <Typography variant="caption" sx={{ opacity: 0.7 }}>
+              المدير
+            </Typography>
+          </Box>
+          </Box>
+       
         </Box>
         <Alert
           icon={<WarningAmberIcon fontSize="inherit" />}
@@ -386,6 +355,9 @@ function Sidebar() {
           محتمل مرزوت
         </Alert>
       </Box>
+      </Box>
+      {/* This Box will remain fixed at the bottom */}
+   
     </Drawer>
   );
 }

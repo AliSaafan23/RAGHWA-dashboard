@@ -47,6 +47,7 @@ function Dashboard() {
     <Box
       sx={{
         display: "flex",
+        gap: 6,
         bgcolor: "#f3f4f6",
         minHeight: "100vh",
         fontFamily: "'Cairo', 'Segoe UI', sans-serif",
@@ -62,6 +63,11 @@ function Dashboard() {
           p: { xs: 2, md: 4 },
           overflow: "auto",
           position: "relative",
+          borderRadius: "16px",
+          backgroundColor: "white",
+          margin:"16px 0px 0px 16px",
+
+
         }}
       >
         {/* Water drop animation in background */}
