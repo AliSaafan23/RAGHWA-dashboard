@@ -281,7 +281,6 @@ function Sidebar() {
                   sx={{
                     color: "#fff",
                     minWidth: 40,
-                    display: "none", // Hide the icon
                   }}
                 >
                   {item.icon}
