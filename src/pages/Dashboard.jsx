@@ -9,8 +9,6 @@ import WashingQueueCard from "../components/WashingQueueCard";
 import BranchCard from "../components/BranchCard";
 import StatCard from "../components/StatCard";
 
-// Removed stats data from here
-
 // Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
