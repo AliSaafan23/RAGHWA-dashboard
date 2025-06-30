@@ -281,7 +281,7 @@ function Sidebar() {
                       <ListItemText
                         primary={setting}
                         primaryTypographyProps={{
-                          fontSize: 16,
+                          fontSize: 12,
                           fontWeight: "bold",
                           textAlign: "right", // Right align text
                         }}

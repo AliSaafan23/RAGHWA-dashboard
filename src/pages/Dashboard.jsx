@@ -111,24 +111,6 @@ function Dashboard() {
 
         <TopBar title="مغسلة السيارات الذكية" />
 
-        {/* Refresh button with animation */}
-        <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 3 }}>
-          <motion.div whileTap={{ rotate: 360, transition: { duration: 0.5 } }}>
-            <IconButton
-              onClick={handleRefresh}
-              sx={{
-                bgcolor: "white",
-                boxShadow: 1,
-                "&:hover": { bgcolor: "#f0f0f0" },
-              }}
-            >
-              <RefreshIcon
-                sx={{ color: refreshing ? "#2196f3" : "text.secondary" }}
-              />
-            </IconButton>
-          </motion.div>
-        </Box>
-
         {/* Stats Cards */}
         <motion.div
           variants={containerVariants}

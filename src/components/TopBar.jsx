@@ -10,7 +10,7 @@ function TopBar({ title }) {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        mb: 4,
+ 
       }}
     >
       <Typography variant="h5" fontWeight="bold">

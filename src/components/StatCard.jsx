@@ -58,7 +58,7 @@ const itemVariants = {
 
 function StatCard() { // Removed 'stat' prop
   return (
-    <Grid container spacing={3} sx={{ mb: 4 }}> {/* Added Grid container */}
+    <Grid container spacing={4} sx={{ mb: 4 ,mt:2}}> {/* Added Grid container */}
       {stats.map((stat, index) => ( // Map over stats array
         <Grid item xs={12} sm={6} md={3} key={index}> {/* Each stat is a Grid item */}
           <motion.div variants={itemVariants}>
