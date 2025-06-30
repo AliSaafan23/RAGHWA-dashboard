@@ -2,51 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Box, Grid, Typography, IconButton, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import PeopleIcon from "@mui/icons-material/People";
+// Removed individual icon imports (DirectionsCarIcon, AttachMoneyIcon, AccessTimeIcon, PeopleIcon)
 import Sidebar from "../components/Sidebar";
 import TopBar from "../components/TopBar";
 import WashingQueueCard from "../components/WashingQueueCard";
 import BranchCard from "../components/BranchCard";
 import StatCard from "../components/StatCard";
 
-// Stats data
-const stats = [
-  {
-    title: "سيارات اليوم",
-    value: "154",
-    subtitle: "عدد السيارات",
-    icon: <DirectionsCarIcon />,
-    color: "#3f51b5",
-    increase: "+12%",
-  },
-  {
-    title: "الإيرادات",
-    value: "45,500",
-    subtitle: "ريال سعودي",
-    icon: <AttachMoneyIcon />,
-    color: "#4caf50",
-    increase: "+8%",
-  },
-  {
-    title: "وقت الانتظار",
-    value: "15",
-    subtitle: "دقيقة",
-    icon: <AccessTimeIcon />,
-    color: "#ff9800",
-    increase: "-5%",
-  },
-  {
-    title: "رضا العملاء",
-    value: "98%",
-    subtitle: "معدل الرضا",
-    icon: <PeopleIcon />,
-    color: "#e91e63",
-    increase: "+2%",
-  },
-];
+// Removed stats data from here
 
 // Animation variants
 const containerVariants = {
@@ -168,13 +131,8 @@ function Dashboard() {
           initial="hidden"
           animate="visible"
         >
-          <Grid container spacing={3} sx={{ mb: 4 }}>
-            {stats.map((stat, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <StatCard stat={stat} />
-              </Grid>
-            ))}
-          </Grid>
+          {/* Render StatCard directly, as it now contains the data and mapping */}
+          <StatCard />
         </motion.div>
 
         {/* Current Washing Status and Services */}
