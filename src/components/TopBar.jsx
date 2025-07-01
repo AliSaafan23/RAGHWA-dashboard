@@ -8,9 +8,10 @@ function TopBar({ title }) {
     <Box
       sx={{
         display: "flex",
+        flexDirection: "row-reverse",
         justifyContent: "space-between",
         alignItems: "center",
- 
+       
       }}
     >
       <Typography variant="h5" fontWeight="bold">

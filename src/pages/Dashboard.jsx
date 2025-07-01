@@ -49,14 +49,14 @@ function Dashboard() {
       sx={{
         display: "flex",
         gap: 6,
-        bgcolor: "#f3f4f6",
+       
         minHeight: "100vh",
         fontFamily: "'Cairo', 'Segoe UI', sans-serif",
         direction: "rtl",
-        background: "linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%)",
+       
       }}
     >
-      <Sidebar />
+      
       <Box
         component="main"
         sx={{
@@ -112,7 +112,7 @@ function Dashboard() {
           ))}
         </Box>
 
-        <TopBar title="مغسلة السيارات الذكية" />
+       
 
         {/* Stats Cards */}
         <motion.div

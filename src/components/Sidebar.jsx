@@ -58,7 +58,7 @@ const menuItems = [
     id: "Warehouses",
     text: "اداره المخازن",
     icon: <InventoryIcon />,
-    settings: ["عرض التقرير", "تصدير", "حذف"],
+    settings: [" ادارة الخدمات","  ادارةالفروع ", " ادارة المورديين ","ادارة الاصناف ","ادارة المشتريات","ادارة الحركات المخزنية","ادارة الجرد والتقارير","ادارة الاعدادات"],
   },
   {
     id: "Procurement",
@@ -153,6 +153,7 @@ function Sidebar() {
           pb: 5,
           display: "flex",
           flexDirection: "column",
+          
           // Removed justifyContent: "space-between"
           boxShadow: "0 8px 32px rgba(0, 0, 0, 0.2)",
           border: "1px solid rgba(255, 255, 255, 0.1)",
@@ -167,6 +168,7 @@ function Sidebar() {
             width: 0,
           },
         },
+        
         // Removed these redundant scrollbar styles from the main Drawer sx prop
         // "&::-webkit-scrollbar": {
         //   backgroundColor: "#6491cf",
@@ -175,7 +177,10 @@ function Sidebar() {
         // "&::-webkit-scrollbar-thumb": {
         //   backgroundColor: " #0a3a7e",
         // },
-      }}
+
+        
+    }}
+
     >
       {/* This Box will now be the main scrollable area */}
       <Box
@@ -205,7 +210,7 @@ function Sidebar() {
         </Box>
 
         {/* Removed maxHeight and overflow properties from List, parent Box handles it */}
-        <List sx={{ p: 0 }}>
+        <List sx={{ p: 0, direction: "rtl" }}>
           {menuItems.map((item) => (
             <Box key={item.id} sx={{ mb: 1 }}>
               <ListItemButton
@@ -305,7 +310,7 @@ function Sidebar() {
           <Box
             sx={{
               display: "flex",
-              justifyContent: "start",
+              justifyContent: "end",
               mb: 2,
               p: 1.5,
               borderRadius: 3,
@@ -316,7 +321,7 @@ function Sidebar() {
               },
             }}
           >
-            <Box sx={{ display: "flex" }}>
+            <Box sx={{ display: "flex", flexDirection: "row-reverse", }}>
               <Avatar
                 sx={{
                   width: 45,
