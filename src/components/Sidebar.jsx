@@ -254,7 +254,6 @@ function Sidebar() {
                 )}
 
                 {/* Icon moved to the end and hidden with display: none */}
-                
               </ListItemButton>
               <Collapse
                 in={expandedItem === item.id}
@@ -302,62 +301,66 @@ function Sidebar() {
             </Box>
           ))}
         </List>
-           <Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "start",
-            mb: 2,
-            p: 1.5,
-            borderRadius: 3,
-            bgcolor: "rgba(255, 255, 255, 0.05)",
-            transition: "all 0.3s ease",
-            "&:hover": {
-              bgcolor: "rgba(255, 255, 255, 0.1)",
-            },
-          }}
-        >
-          <Box sx={{display: "flex"}}>
-               <Avatar
+        <Box>
+          <Box
             sx={{
-              width: 45,
-              height: 45,
-              bgcolor: "#2c5aa0",
-              ml: 2, // Change from mr to ml
-              mr: 0, // Remove right margin
-              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
+              display: "flex",
+              justifyContent: "start",
+              mb: 2,
+              p: 1.5,
+              borderRadius: 3,
+              bgcolor: "rgba(255, 255, 255, 0.05)",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                bgcolor: "rgba(255, 255, 255, 0.1)",
+              },
             }}
           >
-            <PersonIcon />
-          </Avatar>
-             <Box sx={{ display: "flex", flexDirection: "column", textAlign: "right" }}> 
-              <Typography fontWeight="bold">ابو زياد</Typography>
-            <Typography variant="caption" sx={{ opacity: 0.7 }}>
-              المدير
-            </Typography>
+            <Box sx={{ display: "flex" }}>
+              <Avatar
+                sx={{
+                  width: 45,
+                  height: 45,
+                  bgcolor: "#2c5aa0",
+                  ml: 2, // Change from mr to ml
+                  mr: 0, // Remove right margin
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
+                }}
+              >
+                <PersonIcon />
+              </Avatar>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  textAlign: "right",
+                }}
+              >
+                <Typography fontWeight="bold">ابو زياد</Typography>
+                <Typography variant="caption" sx={{ opacity: 0.7 }}>
+                  المدير
+                </Typography>
+              </Box>
+            </Box>
           </Box>
-          </Box>
-       
+          <Alert
+            icon={<WarningAmberIcon fontSize="inherit" />}
+            severity="warning"
+            sx={{
+              bgcolor: "rgba(255, 236, 179, 0.9)",
+              color: "#b28704",
+              borderRadius: 3,
+              fontSize: 14,
+              alignItems: "center",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+              textAlign: "right", // Right align text
+            }}
+          >
+            محتمل مرزوت
+          </Alert>
         </Box>
-        <Alert
-          icon={<WarningAmberIcon fontSize="inherit" />}
-          severity="warning"
-          sx={{
-            bgcolor: "rgba(255, 236, 179, 0.9)",
-            color: "#b28704",
-            borderRadius: 3,
-            fontSize: 14,
-            alignItems: "center",
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-            textAlign: "right", // Right align text
-          }}
-        >
-          محتمل مرزوت
-        </Alert>
-      </Box>
       </Box>
       {/* This Box will remain fixed at the bottom */}
-   
     </Drawer>
   );
 }
