@@ -143,7 +143,7 @@ function Sidebar() {
         [`& .MuiDrawer-paper`]: {
           width: drawerWidth,
           boxSizing: "border-box",
-          bgcolor: "#0a3a7e",
+          bgcolor: "#185BAA",
           // Removed scrollbarColor and related webkit styles from here
           borderColor: "#0a3a7e",
           color: "#fff",
