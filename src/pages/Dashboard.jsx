@@ -8,6 +8,8 @@ import TopBar from "../components/TopBar";
 import WashingQueueCard from "../components/WashingQueueCard";
 import BranchCard from "../components/BranchCard";
 import StatCard from "../components/StatCard";
+import OverviewChart from "../components/OverviewChart/OverviewChart";
+import BreakdownChart from "../components/BreakdownChart/BreakdownChart";
 
 // Animation variants
 const containerVariants = {
@@ -21,6 +23,7 @@ const containerVariants = {
 };
 
 function Dashboard() {
+  
   const theme = useTheme();
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -122,10 +125,20 @@ function Dashboard() {
         </motion.div>
 
         {/* Current Washing Status and Services */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} md={8}>
-            <WashingQueueCard />
-          </Grid>
+        <Grid container spacing={1} sx={{ mb: 4 }}>
+            <Grid size={{ xs: 12, md: 5 }}>
+               <WashingQueueCard />
+            </Grid>
+            <Grid size={{ xs: 12, md: 7 }} height={"420px"} >
+              <OverviewChart  height={"420px"}  view="sales" isDashboard={true}  />
+            </Grid>
+        </Grid>
+
+        <Grid container spacing={1} sx={{ mb: 4 }}>
+            <Grid size={{ xs: 12, md: 5 }}>
+              <BreakdownChart isDashboard={true}  />
+            </Grid>
+            
         </Grid>
 
         {/* Branch Management Section */}

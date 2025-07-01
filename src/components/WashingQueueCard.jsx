@@ -12,6 +12,7 @@ import {
 import { motion } from "framer-motion";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LocalCarWashIcon from "@mui/icons-material/LocalCarWash";
+import OverviewChart from "./OverviewChart/OverviewChart";
 
 const washingQueue = [
   {
@@ -55,7 +56,8 @@ const itemVariants = {
 function WashingQueueCard() {
   return (
     <motion.div variants={itemVariants}>
-      <Card
+      <Box>
+        <Card
         sx={{
           borderRadius: 4,
           boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
@@ -187,8 +189,11 @@ function WashingQueueCard() {
             </motion.div>
           ))}
         </CardContent>
-      </Card>
+        </Card>
+        
+      </Box>
     </motion.div>
+    
   );
 }
 
