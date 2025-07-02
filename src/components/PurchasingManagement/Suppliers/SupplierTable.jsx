@@ -25,7 +25,6 @@ const SupplierTable = ({ rows, onEdit, onDelete }) => {
       field: "email",
       headerName: "البريد الإلكتروني",
       width: 180,
-      resizable: false,
     },
     { field: "city", headerName: "المدينة", width: 120, resizable: false },
     { field: "address", headerName: "العنوان", width: 180, resizable: false },
