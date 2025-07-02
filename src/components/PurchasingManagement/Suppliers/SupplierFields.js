@@ -1,0 +1,52 @@
+export const fields = [
+  {
+    name: "supplierName",
+    label: "اسم المورد",
+    type: "text",
+    required: true,
+    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
+  },
+  {
+    name: "supplierType",
+    label: "نوع النشاط",
+    type: "select",
+    options: ["زيوت", "خدمات", "مواد تنظيف", "أخرى"],
+    required: true,
+    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
+  },
+  {
+    name: "email",
+    label: "البريد الإلكتروني",
+    type: "email",
+    required: true,
+    sx: { backgroundColor: "#f5f5f5" },
+  },
+  {
+    name: "city",
+    label: "المدينة",
+    type: "text",
+    required: true,
+    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
+  },
+  {
+    name: "address",
+    label: "العنوان",
+    type: "text",
+    required: true,
+    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
+  },
+  {
+    name: "crNumber",
+    label: "رقم السجل التجاري",
+    type: "text",
+    required: true,
+    sx: { backgroundColor: "#f5f5f5" },
+  },
+  {
+    name: "notes",
+    label: "اكتب الملاحظات...",
+    type: "text",
+    required: false,
+    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
+  },
+];
