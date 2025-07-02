@@ -67,6 +67,7 @@ const SupplierTable = ({ rows, onEdit, onDelete }) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+
             },
             "& .MuiDataGrid-columnHeader": {
               display: "flex",

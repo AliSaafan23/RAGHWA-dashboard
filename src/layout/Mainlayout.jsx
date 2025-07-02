@@ -1,3 +1,4 @@
+import { AddService } from "../pages/AddService";
 import Dashboard from "../pages/Dashboard";
 import InventoryTransactions from "../pages/InventoryTransactions";
 import SupplierCreation from "../pages/SupplierCreation";
@@ -10,10 +11,10 @@ export const Mainlayout = () => {
         <Routes>
           <Route path="/" element={<SharedLayout />}>
             <Route path="/" element={<Dashboard />} />
-            {/*  <Route path="/about" element={<About />} />
-                        <Route path="/contact" element={<Contact />} />  */}
+            <Route path="/dashboard" element={<Dashboard />} />
+            
             <Route
-              path="/Warehouses/-ادارة-المورديين-"
+              path="/Warehouses/ادارة-المورديين"
               element={<SupplierCreation />}
             />
             <Route

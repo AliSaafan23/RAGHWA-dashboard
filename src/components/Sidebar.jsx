@@ -60,10 +60,10 @@ const menuItems = [
     text: "اداره المخازن",
     icon: <InventoryIcon />,
     settings: [
-      " ادارة الخدمات",
-      "  ادارةالفروع ",
-      " ادارة المورديين ",
-      "ادارة الاصناف ",
+      "ادارة الخدمات",
+      "ادارةالفروع ",
+      "ادارة المورديين",
+      "ادارة الاصناف",
       "ادارة المشتريات",
       "ادارة الحركات المخزنية",
       "ادارة الجرد والتقارير",
@@ -275,7 +275,7 @@ function Sidebar() {
                 <List component="div" disablePadding>
                   {item.settings.map((setting, index) => {
                     // Generate a path for each setting (customize as needed)
-                    const path = `/${item.id}/${setting.replace(/\s+/g, "-")}`;
+                    const path = `/${item.id}/${setting.split(" ").join("-")}`;
                     return (
                       <ListItemButton
                         key={`${item.id}-${index}`}
