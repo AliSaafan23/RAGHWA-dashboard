@@ -26,7 +26,7 @@ const SupplierTable = ({ rows, onEdit, onDelete }) => {
       resizable: false,
     },
     { field: "city", headerName: "المدينة", resizable: false },
-    { field: "address", headerName: "العنوان",  resizable: false },
+    { field: "address", headerName: "العنوان", resizable: false },
     {
       field: "crNumber",
       headerName: "رقم السجل التجاري",
@@ -68,13 +68,13 @@ const SupplierTable = ({ rows, onEdit, onDelete }) => {
               alignItems: 'center',
               justifyContent: 'center',
             },
-            '& .MuiDataGrid-columnHeader': {
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+            "& .MuiDataGrid-columnHeader": {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             },
-            '& .MuiDataGrid-columnHeaderTitle': {
-              fontWeight: 'bold',
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",
               color: COLORS.PRIMARY,
             },
             '& .MuiTablePagination-displayedRows': {
