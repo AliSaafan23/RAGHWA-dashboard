@@ -14,32 +14,15 @@ export default function InventoryTransactions() {
         { label: 'الحالة', items: ['Customer 1', 'Customer 2', 'Customer 3'] }
     ];
 
-    const [rows, setRows] = useState([]);
     const [formOpen, setFormOpen] = useState(false);
 
-    const handleAddTransaction = (data) => {
-        setRows(prev => [
-            ...prev,
-            {
-                id: prev.length + 1,
-                date: data.date,
-                type: data.transactionType,
-                wharehouse: data.sourceWarehouse || data.warehouse || '',
-                quantity: data.items ? data.items.reduce((sum, item) => sum + Number(item.quantity || 0), 0) : '',
-                user: data.executedBy || '---',
-                status: data.status || 'غير معتمدة',
-                action: 'عرض',
-                ...data
-            }
-        ]);
-    };
 
     return (
         <Box sx={{display:'flex',flexDirection:'column',gap:4,}}>
             <Header/>
             <Filter inputs={InventoryFilters} />
-            <Table rows={rows} />
-            <InventoryTransactionForm open={formOpen} onClose={() => setFormOpen(false)} onSubmit={handleAddTransaction} user={{ name: 'المستخدم الحالي' }} />
+            <Table />
+            <InventoryTransactionForm open={formOpen} onClose={() => setFormOpen(false)}  user={{ name: 'المستخدم الحالي' }} />
         </Box>
     )
 }
