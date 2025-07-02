@@ -30,8 +30,8 @@ const SupplierCreationForm = ({
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" dir="rtl">
-      <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30 }}>
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" >
+      <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30, direction: "ltr" }}>
         {initialData ? "تعديل مورد" : "إضافة مورد جديد"}
       </DialogTitle>
       <DialogContent>

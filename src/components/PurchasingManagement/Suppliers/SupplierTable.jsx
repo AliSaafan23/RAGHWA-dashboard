@@ -59,7 +59,7 @@ const SupplierTable = ({ rows, onEdit, onDelete }) => {
   ];
 
   return (
-    <Box sx={{ height: 400, width: "100%",direction: 'rtl' }}>
+    <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
         sx={{
           width: '100%',
@@ -77,12 +77,9 @@ const SupplierTable = ({ rows, onEdit, onDelete }) => {
               fontWeight: 'bold',
               color: COLORS.PRIMARY,
             },
-            '& .MuiTablePaginationActions-root': {
-                 direction: 'ltr',
-    },
-    '& .MuiTablePagination-displayedRows': {
-    direction: 'ltr',}
-          }}
+            '& .MuiTablePagination-displayedRows': {
+            direction: 'rtl',}
+                  }}
           
             rows={rows}
             columns={columns}

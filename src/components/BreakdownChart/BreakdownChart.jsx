@@ -67,7 +67,7 @@ const BreakdownChart = ({isDashboard=false}) => {
                 }
             },
         }}
-        margin={isDashboard ? { top: 40, right: 80, bottom: 100, left: 50 } 
+        margin={isDashboard ? { top: 40, right: 50, bottom: 100, left: 80 } 
                 : { top: 40, right: 80, bottom: 80, left: 80 }}
         sortByValue={true}
         innerRadius={0.5}
@@ -103,13 +103,13 @@ const BreakdownChart = ({isDashboard=false}) => {
                 anchor: 'bottom',
                 direction: 'row',
                 justify: false,
-                translateX: isDashboard ? 20: 0,
-                translateY: isDashboard ? 50: 56,
+                translateX: isDashboard ? 0: 20,
+                translateY: isDashboard ? 56: 50,
                 itemsSpacing: 0,
                 itemWidth: 100,
                 itemHeight: 18,
                 itemTextColor: '#999',
-                itemDirection: 'left-to-right',
+                itemDirection: 'right-to-left',
                 itemOpacity: 1,
                 symbolSize: 18,
                 symbolShape: 'circle',
@@ -126,7 +126,7 @@ const BreakdownChart = ({isDashboard=false}) => {
     />
     <Box position="absolute" 
             top="50%" 
-            left="50%"
+            left="51%"
             color={theme.palette.secondary[400]}
             textAlign="center"
             pointerEvents="none"

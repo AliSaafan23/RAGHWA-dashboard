@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {
   TextField,
   Select,
@@ -12,24 +11,7 @@ import {
   Switch,
   Box,
 } from "@mui/material";
-import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
-import { prefixer } from 'stylis';
-import rtlPlugin from 'stylis-plugin-rtl';
 
-// Create RTL cache for Emotion
-const cacheRtl = createCache({
-  key: 'mui-rtl',
-  stylisPlugins: [prefixer, rtlPlugin],
-});
-
-// Create an RTL theme
-const theme = createTheme({
-  direction: 'rtl',
-  typography: {
-    fontFamily: '"Noto Sans Arabic", sans-serif', // Arabic font
-  },
-});
 
 const DynamicForm = ({
   fields,
@@ -56,9 +38,7 @@ const DynamicForm = ({
   };
 
   return (
-    <CacheProvider value={cacheRtl}>
-      <ThemeProvider theme={theme}>
-      <div dir="rtl">
+    
         <form
           onSubmit={handleSubmit}
           style={{ display: "grid", gap: 10, ...formStyle }}
@@ -219,9 +199,7 @@ const DynamicForm = ({
         )}
       </Box>
     </form>
-  </div>
-  </ThemeProvider>
-  </CacheProvider>     
+
   );
 
 };

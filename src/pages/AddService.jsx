@@ -26,6 +26,7 @@ const fields = [
         name: "service Type",
         label: "نوع الخدمة",
         type: "select",
+        options: ["غسيل خارجي", "خدمات", "مواد تنظيف", "أخرى"],
         required: true,
         sx: { backgroundColor: "#f5f5f5" },
     },

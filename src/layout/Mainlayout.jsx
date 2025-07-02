@@ -12,7 +12,7 @@ export const Mainlayout = () => {
           <Route path="/" element={<SharedLayout />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            
+            <Route path="/Warehouses/ادارة-الخدمات" element={<AddService />} />
             <Route
               path="/Warehouses/ادارة-المورديين"
               element={<SupplierCreation />}
