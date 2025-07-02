@@ -20,16 +20,18 @@ export const SharedLayout = () => {
         flexDirection={"row-reverse"}
       >
         <Sidebar />
-
         <Box
           sx={{
             flexGrow: 1,
             bgcolor: "#ffffff",
             borderRadius: "16px",
             padding: 3,
+            minHeight: "100vh", 
+            marginBottom: "16px",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <TopBar title={"مغسلة السيارات الذكية"} />
           <Outlet />
         </Box>
       </Box>

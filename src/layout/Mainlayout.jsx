@@ -1,4 +1,5 @@
 import Dashboard from "../pages/Dashboard";
+import InventoryTransactions from "../pages/InventoryTransactions";
 import SupplierCreation from "../pages/SupplierCreation";
 import { SharedLayout } from "./SharedLayout";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -15,9 +16,14 @@ export const Mainlayout = () => {
               path="/Warehouses/-ادارة-المورديين-"
               element={<SupplierCreation />}
             />
+            <Route
+              path="Warehouses/ادارة-الحركات-المخزنية"
+              element={<InventoryTransactions/>}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
     </>
   );
 };
+"/Warehouses/-ادارة-الحركات-المخزنية"

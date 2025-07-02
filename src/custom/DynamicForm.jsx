@@ -107,6 +107,9 @@ const DynamicForm = ({
             onChange={(e) => handleChange(name, e.target.value)}
             sx={sx}
             style={fieldWrapperStyle}
+            {...(type === "date"
+              ? { InputLabelProps: { shrink: true }, placeholder: "" }
+              : {})}
           />
         );
       })}

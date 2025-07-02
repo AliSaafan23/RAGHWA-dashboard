@@ -5,40 +5,37 @@ import { IconButton, Stack } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { resize } from "framer-motion";
+import { COLORS } from "../../../constants";
 
 const SupplierTable = ({ rows, onEdit, onDelete }) => {
   const columns = [
-    { field: "id", headerName: "رقم المورد", width: 90, resizable: false },
+    { field: "id", headerName: "رقم المورد", resizable: false },
     {
       field: "supplierName",
       headerName: "اسم المورد",
-      width: 180,
       resizable: false,
     },
     {
       field: "supplierType",
       headerName: "نوع النشاط",
-      width: 120,
       resizable: false,
     },
     {
       field: "email",
       headerName: "البريد الإلكتروني",
-      width: 180,
+      resizable: false,
     },
-    { field: "city", headerName: "المدينة", width: 120, resizable: false },
-    { field: "address", headerName: "العنوان", width: 180, resizable: false },
+    { field: "city", headerName: "المدينة", resizable: false },
+    { field: "address", headerName: "العنوان", resizable: false },
     {
       field: "crNumber",
       headerName: "رقم السجل التجاري",
-      width: 150,
       resizable: false,
     },
-    { field: "notes", headerName: "ملاحظات", width: 180, resizable: false },
+    { field: "notes", headerName: "ملاحظات", resizable: false },
     {
       field: "actions",
       headerName: "إجراءات",
-      width: 120,
       sortable: false,
       renderCell: (params) => (
         <Stack direction="row" spacing={1}>
@@ -62,40 +59,47 @@ const SupplierTable = ({ rows, onEdit, onDelete }) => {
   ];
 
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
-      <DataGrid
-        sx={{
-          backgroundColor: "#f5f5f5",
-          color: "#333",
-          "& .MuiDataGrid-columnHeader": {
-            backgroundColor: "#f5f5f5",
-            color: "#1976d2",
-          },
-          "& .MuiDataGrid-row:hover": {
-            backgroundColor: "#e3f2fd",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "1px solid #ccc",
-          },
-          "& .MuiDataGrid-columnHeaderTitle": {
-            fontWeight: "bold",
-            fontSize: "16px",
-          },
-          direction: "rtl",
-          "& .MuiTablePaginationActions-root": {
-            direction: "ltr",
-          },
-          "& .MuiTablePagination-displayedRows": {
-            direction: "ltr",
-          },
-        }}
-        rows={rows}
-        columns={columns}
-        pageSizeOptions={[5]}
-        checkboxSelection={false}
-        disableRowSelectionOnClick
-      />
-    </Box>
+    <>
+      <Box sx={{ height: 400, width: "100%", direction: "rtl" }}>
+        <DataGrid
+          sx={{
+            "& .MuiDataGrid-cell": {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            },
+            "& .MuiDataGrid-columnHeader": {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",
+              color: COLORS.PRIMARY,
+            },
+            "& .MuiTablePaginationActions-root": {
+              direction: "ltr",
+            },
+            "& .MuiTablePagination-displayedRows": {
+              direction: "ltr",
+            },
+          }}
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
+            },
+          }}
+          pageSizeOptions={[5]}
+          checkboxSelection={false}
+          disableRowSelectionOnClick
+          autoHeight={false}
+        />
+      </Box>
+    </>
   );
 };
 

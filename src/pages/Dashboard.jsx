@@ -45,6 +45,7 @@ function Dashboard() {
   };
 
   return (
+    
     <Box
       sx={{
         display: "flex",
@@ -66,7 +67,7 @@ function Dashboard() {
           position: "relative",
           borderRadius: "16px",
           backgroundColor: "white",
-          margin:"16px 0px 0px 16px",
+          margin:"0px 0px 0px 16px",
 
 
         }}
@@ -112,7 +113,9 @@ function Dashboard() {
           ))}
         </Box>
 
-       
+       <Box sx={{direction: "ltr"}}>
+       <TopBar title={"مغسلة السيارات الذكية"} />
+       </Box>
 
         {/* Stats Cards */}
         <motion.div
