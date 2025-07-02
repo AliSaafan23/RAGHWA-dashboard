@@ -12,7 +12,7 @@ export default function Header() {
       };
     
       return (
-        <Box sx={{display:'flex',justifyContent:'space-between',alignItems:'center',direction:'rtl',marginTop:'16px'}}>
+        <Box sx={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:'16px'}}>
       <Typography sx={{ fontWeight: 'bold', fontSize: '26px',color:COLORS.PRIMARY}} >الحركات المخزنية الرئيسية</Typography>
            <Button variant="contained" sx={{backgroundColor:COLORS.PRIMARY}} onClick={() => setOpen(true)}>إضافة حركة جديدة</Button>
             <InventoryTransactionForm

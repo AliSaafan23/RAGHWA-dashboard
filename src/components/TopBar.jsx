@@ -8,7 +8,7 @@ function TopBar({ title }) {
     <Box
       sx={{
         display: "flex",
-        flexDirection: "row-reverse",
+        flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
        

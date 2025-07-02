@@ -16,7 +16,7 @@ export default function Filter({inputs = []}) {
 
 
   return (
-    <Box sx={{display:'flex',justifyContent:'space-between',alignItems:'center',direction:'rtl',gap: 2 }}>
+    <Box sx={{display:'flex',justifyContent:'space-between',alignItems:'center',gap: 2 }}>
       {inputs.map((item, index) => (
         <FormControl key={index} fullWidth sx={{ height: 40, minHeight: 40 }}>
           <InputLabel id={`select-label-${index}`} >{item.label}</InputLabel>

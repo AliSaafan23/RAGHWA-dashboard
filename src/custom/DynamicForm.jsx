@@ -12,6 +12,7 @@ import {
   Box,
 } from "@mui/material";
 
+
 const DynamicForm = ({
   fields,
   onSubmit,
@@ -37,63 +38,117 @@ const DynamicForm = ({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{ display: "grid", gap: 10, ...formStyle }}
-    >
-      {fields.map((field) => {
-        const {
-          name,
-          label,
-          type,
-          required,
-          options,
-          sx,
-          variant = "outlined",
-          fullWidth = true,
-        } = field;
+    
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "grid", gap: 10, ...formStyle }}
+          dir="rtl" // Apply RTL at the form level
+        >
+          {fields?.map((field) => {
+            const {
+              name,
+              label,
+              type,
+              required,
+              options,
+              sx,
+              variant = "outlined",
+              fullWidth = true,
+            } = field;
 
-        if (type === "select") {
-          return (
-            <FormControl
-              fullWidth={fullWidth}
-              required={required}
-              key={name}
-              sx={sx}
-              style={fieldWrapperStyle}
-            >
-              <InputLabel>{label}</InputLabel>
-              <Select
-                value={formData[name] || ""}
-                label={label}
-                onChange={(e) => handleChange(name, e.target.value)}
-              >
-                {options.map((opt) => (
-                  <MenuItem key={opt} value={opt}>
-                    {opt}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          );
-        }
+            if (type === "select") {
+              return (
+                <FormControl
+                  fullWidth={fullWidth}
+                  required={required}
+                  key={name}
+                  sx={sx}
+                  style={fieldWrapperStyle}
+                >
+                  <InputLabel>{label}</InputLabel>
+                  <Select
+                    value={formData[name] || ""}
+                    label={label}
+                    onChange={(e) => handleChange(name, e.target.value)}
+                    sx={{
+                      textAlign: 'right',
+                      '& .MuiSelect-select': {
+                        textAlign: 'right',
+                      },
+                      '& .MuiInputLabel-root': {
+                        right: 30,
+                        left: 'auto',
+                        transformOrigin: 'top right',
+                      },
+                      '& .MuiInputLabel-shrink': {
+                        transform: 'translate(0, -6px) scale(0.75)',
+                      },
+                      ...sx, // Merge with user-provided sx
+                    }}
+                    MenuProps={{
+                      PaperProps: {
+                        sx: {
+                          textAlign: 'right',
+                          '& .MuiMenuItem-root': {
+                            justifyContent: 'flex-end',
+                          },
+                        },
+                      },
+                    }}
+                  >
+                    {options.map((opt) => (
+                      <MenuItem key={opt} value={opt}>
+                        {opt}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              );
+            }
 
-        if (type === "checkbox") {
-          return (
-            <FormControlLabel
-              key={name}
-              control={
-                <Checkbox
-                  checked={formData[name] || false}
-                  onChange={(e) => handleChange(name, e.target.checked)}
+            if (type === "checkbox") {
+              return (
+                <FormControlLabel
+                  key={name}
+                  control={
+                    <Checkbox
+                      checked={formData[name] || false}
+                      onChange={(e) => handleChange(name, e.target.checked)}
+                    />
+                  }
+                  label={label}
+                  labelPlacement="start" // Place label on the right for RTL
+                  sx={{
+                    justifyContent: 'flex-end', // Align checkbox and label to the right
+                    marginRight: 0, // Adjust margin for RTL
+                    ...sx,
+                  }}
+                  style={fieldWrapperStyle}
                 />
-              }
-              label={label}
-              sx={sx}
-              style={fieldWrapperStyle}
-            />
-          );
-        }
+              );
+            }
+
+            if (type === "switch") {
+              return (
+                <FormControlLabel
+                  key={name}
+                  control={
+                    <Switch
+                      checked={formData[name] || false}
+                      onChange={(e) => handleChange(name, e.target.checked)}
+                    />
+                  }
+                  label={label}
+                  labelPlacement="end" // Place label on the right for RTL
+                  sx={{
+                    justifyContent: 'flex-end',
+                    marginRight: 0,
+                    ...sx,
+                  }}
+                  style={fieldWrapperStyle}
+                />
+              );
+            }
 
         return (
           <TextField
@@ -144,7 +199,9 @@ const DynamicForm = ({
         )}
       </Box>
     </form>
+
   );
+
 };
 
 export default DynamicForm;

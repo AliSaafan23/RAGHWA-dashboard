@@ -60,10 +60,10 @@ const menuItems = [
     text: "اداره المخازن",
     icon: <InventoryIcon />,
     settings: [
-      " ادارة الخدمات",
-      "  ادارةالفروع ",
-      " ادارة المورديين ",
-      "ادارة الاصناف ",
+      "ادارة الخدمات",
+      "ادارةالفروع ",
+      "ادارة المورديين",
+      "ادارة الاصناف",
       "ادارة المشتريات",
       "ادارة الحركات المخزنية",
       "ادارة الجرد والتقارير",
@@ -146,7 +146,7 @@ function Sidebar() {
   return (
     <Drawer
       variant="permanent"
-      anchor="right"
+      anchor="left"
       sx={{
         width: drawerWidth,
         flexShrink: 0,
@@ -217,7 +217,7 @@ function Sidebar() {
         </Box>
 
         {/* Removed maxHeight and overflow properties from List, parent Box handles it */}
-        <List sx={{ p: 0, direction: "rtl" }}>
+        <List sx={{ p: 0,  }}>
           {menuItems.map((item) => (
             <Box key={item.id} sx={{ mb: 1 }}>
               <ListItemButton
@@ -275,7 +275,7 @@ function Sidebar() {
                 <List component="div" disablePadding>
                   {item.settings.map((setting, index) => {
                     // Generate a path for each setting (customize as needed)
-                    const path = `/${item.id}/${setting.replace(/\s+/g, "-")}`;
+                    const path = `/${item.id}/${setting.split(" ").join("-")}`;
                     return (
                       <ListItemButton
                         key={`${item.id}-${index}`}
@@ -322,7 +322,7 @@ function Sidebar() {
           <Box
             sx={{
               display: "flex",
-              justifyContent: "end",
+              justifyContent: "start",
               mb: 2,
               p: 1.5,
               borderRadius: 3,
@@ -333,7 +333,7 @@ function Sidebar() {
               },
             }}
           >
-            <Box sx={{ display: "flex", flexDirection: "row-reverse" }}>
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Avatar
                 sx={{
                   width: 45,
@@ -370,7 +370,7 @@ function Sidebar() {
               fontSize: 14,
               alignItems: "center",
               boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-              textAlign: "right", // Right align text
+              textAlign: "left", // Right align text
             }}
           >
             محتمل مرزوت

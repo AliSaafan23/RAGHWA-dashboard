@@ -53,7 +53,7 @@ function Dashboard() {
        
         minHeight: "100vh",
         fontFamily: "'Cairo', 'Segoe UI', sans-serif",
-        direction: "rtl",
+        
        
       }}
     >
@@ -67,7 +67,7 @@ function Dashboard() {
           position: "relative",
           borderRadius: "16px",
           backgroundColor: "white",
-          margin:"0px 0px 0px 16px",
+          margin:"0px 16px 0px 0px",
 
 
         }}
@@ -113,7 +113,7 @@ function Dashboard() {
           ))}
         </Box>
 
-       <Box sx={{direction: "ltr"}}>
+       <Box >
        <TopBar title={"مغسلة السيارات الذكية"} />
        </Box>
 

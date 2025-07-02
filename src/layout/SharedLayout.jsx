@@ -17,7 +17,7 @@ export const SharedLayout = () => {
         }}
         gap={6}
         display={"flex"}
-        flexDirection={"row-reverse"}
+        flexDirection={"row"}
       >
         <Sidebar />
         <Box

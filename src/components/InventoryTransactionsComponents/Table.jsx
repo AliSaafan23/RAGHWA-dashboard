@@ -60,7 +60,7 @@ const rows = [
 
 export default function Table() {
   return (
-    <Box sx={{ height: 400, width: '100%', direction: 'rtl' }}>
+    <Box sx={{ height: 400, width: '100%',  }}>
       <DataGrid
       
       sx={{
@@ -79,11 +79,10 @@ export default function Table() {
           fontWeight: 'bold',
           color: COLORS.PRIMARY,
         },
-        '& .MuiTablePaginationActions-root': {
-             direction: 'ltr',
-},
-'& .MuiTablePagination-displayedRows': {
-direction: 'ltr',}
+        
+          '& .MuiTablePagination-displayedRows': {
+              direction: 'rtl',
+            }
       }}
       
         rows={rows}
