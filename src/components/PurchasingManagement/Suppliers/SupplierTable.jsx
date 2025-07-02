@@ -59,10 +59,9 @@ const SupplierTable = ({ rows, onEdit, onDelete }) => {
   ];
 
   return (
-    <Box sx={{ height: 400, width: "100%",direction: 'rtl' }}>
+    <Box sx={{ height: 400, width: "100%", direction: 'rtl' }}>
       <DataGrid
         sx={{
-          width: '90%',
             '& .MuiDataGrid-cell': {
               display: 'flex',
               alignItems: 'center',
@@ -83,7 +82,6 @@ const SupplierTable = ({ rows, onEdit, onDelete }) => {
     '& .MuiTablePagination-displayedRows': {
     direction: 'ltr',}
           }}
-          
             rows={rows}
             columns={columns}
             initialState={{
