@@ -26,7 +26,7 @@ const SupplierTable = ({ rows, onEdit, onDelete }) => {
       resizable: false,
     },
     { field: "city", headerName: "المدينة", resizable: false },
-    { field: "address", headerName: "العنوان",  resizable: false },
+    { field: "address", headerName: "العنوان", resizable: false },
     {
       field: "crNumber",
       headerName: "رقم السجل التجاري",
@@ -59,46 +59,48 @@ const SupplierTable = ({ rows, onEdit, onDelete }) => {
   ];
 
   return (
-    <Box sx={{ height: 400, width: "100%",direction: 'rtl' }}>
-      <DataGrid
-        sx={{
-          width: '100%',
-            '& .MuiDataGrid-cell': {
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+    <>
+      <Box sx={{ height: 400, width: "100%", direction: "rtl" }}>
+        <DataGrid
+          sx={{
+            "& .MuiDataGrid-cell": {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+
             },
-            '& .MuiDataGrid-columnHeader': {
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+            "& .MuiDataGrid-columnHeader": {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             },
-            '& .MuiDataGrid-columnHeaderTitle': {
-              fontWeight: 'bold',
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",
               color: COLORS.PRIMARY,
             },
-            '& .MuiTablePaginationActions-root': {
-                 direction: 'ltr',
-    },
-    '& .MuiTablePagination-displayedRows': {
-    direction: 'ltr',}
+            "& .MuiTablePaginationActions-root": {
+              direction: "ltr",
+            },
+            "& .MuiTablePagination-displayedRows": {
+              direction: "ltr",
+            },
           }}
-          
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
-                },
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
               },
-            }}
-            pageSizeOptions={[5]}
-            checkboxSelection
-            disableRowSelectionOnClick
-            autoHeight={false}
-      />
-    </Box>
+            },
+          }}
+          pageSizeOptions={[5]}
+          checkboxSelection={false}
+          disableRowSelectionOnClick
+          autoHeight={false}
+        />
+      </Box>
+    </>
   );
 };
 
