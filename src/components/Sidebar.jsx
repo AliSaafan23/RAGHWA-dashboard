@@ -33,6 +33,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
+import { Link } from "react-router-dom";
 const drawerWidth = 250;
 
 const menuItems = [
@@ -58,7 +59,16 @@ const menuItems = [
     id: "Warehouses",
     text: "اداره المخازن",
     icon: <InventoryIcon />,
-    settings: [" ادارة الخدمات","  ادارةالفروع ", " ادارة المورديين ","ادارة الاصناف ","ادارة المشتريات","ادارة الحركات المخزنية","ادارة الجرد والتقارير","ادارة الاعدادات"],
+    settings: [
+      " ادارة الخدمات",
+      "  ادارةالفروع ",
+      " ادارة المورديين ",
+      "ادارة الاصناف ",
+      "ادارة المشتريات",
+      "ادارة الحركات المخزنية",
+      "ادارة الجرد والتقارير",
+      "ادارة الاعدادات",
+    ],
   },
   {
     id: "Procurement",
@@ -153,7 +163,7 @@ function Sidebar() {
           pb: 5,
           display: "flex",
           flexDirection: "column",
-          
+
           // Removed justifyContent: "space-between"
           boxShadow: "0 8px 32px rgba(0, 0, 0, 0.2)",
           border: "1px solid rgba(255, 255, 255, 0.1)",
@@ -168,7 +178,7 @@ function Sidebar() {
             width: 0,
           },
         },
-        
+
         // Removed these redundant scrollbar styles from the main Drawer sx prop
         // "&::-webkit-scrollbar": {
         //   backgroundColor: "#6491cf",
@@ -177,10 +187,7 @@ function Sidebar() {
         // "&::-webkit-scrollbar-thumb": {
         //   backgroundColor: " #0a3a7e",
         // },
-
-        
-    }}
-
+      }}
     >
       {/* This Box will now be the main scrollable area */}
       <Box
@@ -266,41 +273,46 @@ function Sidebar() {
                 unmountOnExit
               >
                 <List component="div" disablePadding>
-                  {item.settings.map((setting, index) => (
-                    <ListItemButton
-                      key={`${item.id}-${index}`}
-                      onClick={() => handleSettingClick(setting, item.id)}
-                      sx={{
-                        pl: 2, // Reduce left padding
-                        pr: 6, // Add right padding for indentation
-                        py: 0.75,
-                        borderRadius: 2,
-                        transition: "all 0.2s ease",
-                        "&:hover": {
-                          bgcolor: "rgba(255, 255, 255, 0.1)",
-                        },
-                        justifyContent: "flex-end", // Align content to the right
-                      }}
-                    >
-                      <ListItemText
-                        primary={setting}
-                        primaryTypographyProps={{
-                          fontSize: 12,
-                          fontWeight: "bold",
-                          textAlign: "right", // Right align text
-                        }}
-                      />
-                      <ListItemIcon
+                  {item.settings.map((setting, index) => {
+                    // Generate a path for each setting (customize as needed)
+                    const path = `/${item.id}/${setting.replace(/\s+/g, "-")}`;
+                    return (
+                      <ListItemButton
+                        key={`${item.id}-${index}`}
+                        component={Link}
+                        to={path}
                         sx={{
-                          color: "#fff",
-                          minWidth: 30,
-                          display: "none", // Hide the icon
+                          pl: 2,
+                          pr: 6,
+                          py: 0.75,
+                          borderRadius: 2,
+                          transition: "all 0.2s ease",
+                          "&:hover": {
+                            bgcolor: "rgba(255, 255, 255, 0.1)",
+                          },
+                          justifyContent: "flex-end",
                         }}
                       >
-                        <ChevronLeftIcon fontSize="small" />
-                      </ListItemIcon>
-                    </ListItemButton>
-                  ))}
+                        <ListItemText
+                          primary={setting}
+                          primaryTypographyProps={{
+                            fontSize: 12,
+                            fontWeight: "bold",
+                            textAlign: "right",
+                          }}
+                        />
+                        <ListItemIcon
+                          sx={{
+                            color: "#fff",
+                            minWidth: 30,
+                            display: "none",
+                          }}
+                        >
+                          <ChevronLeftIcon fontSize="small" />
+                        </ListItemIcon>
+                      </ListItemButton>
+                    );
+                  })}
                 </List>
               </Collapse>
             </Box>
@@ -321,7 +333,7 @@ function Sidebar() {
               },
             }}
           >
-            <Box sx={{ display: "flex", flexDirection: "row-reverse", }}>
+            <Box sx={{ display: "flex", flexDirection: "row-reverse" }}>
               <Avatar
                 sx={{
                   width: 45,
