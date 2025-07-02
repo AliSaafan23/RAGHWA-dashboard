@@ -53,7 +53,7 @@ const fields = [
     label: "رقم السجل التجاري",
     type: "text",
     required: true,
-    sx: { backgroundColor: "#f5f5f5" },
+    sx: { backgroundColor: "#f5f5f5" ,direction:"ltr" },
   },
   {
     name: "notes",
