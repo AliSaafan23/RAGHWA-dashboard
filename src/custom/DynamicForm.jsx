@@ -25,7 +25,7 @@ const cacheRtl = createCache({
 
 // Create an RTL theme
 const theme = createTheme({
-  direction: 'ltr',
+  direction: 'rtl',
   typography: {
     fontFamily: '"Noto Sans Arabic", sans-serif', // Arabic font
   },
@@ -219,7 +219,11 @@ const DynamicForm = ({
         )}
       </Box>
     </form>
+  </div>
+  </ThemeProvider>
+  </CacheProvider>     
   );
+
 };
 
 export default DynamicForm;

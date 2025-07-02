@@ -62,7 +62,7 @@ const SupplierTable = ({ rows, onEdit, onDelete }) => {
     <Box sx={{ height: 400, width: "100%",direction: 'rtl' }}>
       <DataGrid
         sx={{
-          width: '90%',
+          width: '100%',
             '& .MuiDataGrid-cell': {
               display: 'flex',
               alignItems: 'center',
