@@ -5,7 +5,6 @@ import InventoryTransactionForm from './InventoryTransactionForm';
 
 export default function Header() {
       const [open, setOpen] = useState(false);
-    
 
     
       return (

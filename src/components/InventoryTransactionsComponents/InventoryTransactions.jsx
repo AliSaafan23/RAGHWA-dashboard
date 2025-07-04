@@ -1,8 +1,7 @@
-import Header from '../components/InventoryTransactionsComponents/Header'
-import Filter from '../components/InventoryTransactionsComponents/Filter'
+import Header from './Header'
+import Filter from './Filter'
 import { Box } from '@mui/material';
-import Table from '../components/InventoryTransactionsComponents/Table';
-import InventoryTransactionForm from '../components/InventoryTransactionsComponents/InventoryTransactionForm';
+import Table from './Table';
 
 export default function InventoryTransactions() {
     const InventoryFilters= [
