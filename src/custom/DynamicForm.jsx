@@ -21,8 +21,8 @@ const DynamicForm = ({
   showdetailed = false,
   detailed,
   setDetailed,
-  onCancel,
   formButtons = null,
+  extraItems
 }) => {
   const [formData, setFormData] = useState({});
 
@@ -180,6 +180,8 @@ const DynamicForm = ({
             sx={{ mt: 2 }}
           />
         )}
+        {  extraItems
+}
       <Box sx={{ display: "flex", justifyContent: "start", gap: 2 }}>
         {formButtons}
       </Box>
