@@ -18,13 +18,11 @@ const DynamicForm = ({
   onSubmit,
   formStyle,
   fieldWrapperStyle,
-  submitButtonProps,
   showdetailed = false,
   detailed,
   setDetailed,
-  showCancelButton = true,
   onCancel,
-  cancelButtonProps = {},
+  formButtons = null,
 }) => {
   const [formData, setFormData] = useState({});
 
@@ -42,7 +40,6 @@ const DynamicForm = ({
         <form
           onSubmit={handleSubmit}
           style={{ display: "grid", gap: 10, ...formStyle }}
-          dir="rtl" // Apply RTL at the form level
         >
           {fields?.map((field) => {
             const {
@@ -183,20 +180,8 @@ const DynamicForm = ({
             sx={{ mt: 2 }}
           />
         )}
-      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
-        <Button variant="contained" type="submit" {...submitButtonProps}>
-          {submitButtonProps.children || "Submit"}
-        </Button>
-        {showCancelButton && (
-          <Button
-            variant="outlined"
-            type="button"
-            onClick={onCancel}
-            {...cancelButtonProps}
-          >
-            {cancelButtonProps.children || "الغاء"}
-          </Button>
-        )}
+      <Box sx={{ display: "flex", justifyContent: "start", gap: 2 }}>
+        {formButtons}
       </Box>
     </form>
 

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DynamicForm from "../../../custom/DynamicForm";
 import { fields } from "./SupplierFields";
-import { Dialog, DialogTitle, DialogContent, Button, Box, Typography } from "@mui/material";
-import SupplierTable from "./SupplierTable";
+import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material";
 import { COLORS } from "../../../constants";
 
 const SupplierCreationForm = ({
@@ -30,8 +29,8 @@ const SupplierCreationForm = ({
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" >
-      <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30, direction: "ltr" }}>
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" dir="rtl">
+      <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30}}>
         {initialData ? "تعديل مورد" : "إضافة مورد جديد"}
       </DialogTitle>
       <DialogContent>
@@ -44,42 +43,50 @@ const SupplierCreationForm = ({
             borderRadius: 8,
           }}
           fieldWrapperStyle={{ marginBottom: 10 }}
-          submitButtonProps={{
-            sx: {
-              backgroundColor: "#1976d2",
-              color: "#fff",
-              px: 5,
-              py: 1.5,
-              fontWeight: "bold",
-              width: "50%",
-              "&:hover": {
-                backgroundColor: "#fff",
-                color: "#1976d2",
-              },
-            },
-            children: initialData ? "تحديث" : "حفظ",
-          }}
+        
           showdetailed={true}
           detailed={detailed}
           setDetailed={setDetailed}
-          showCancelButton={true}
           onCancel={onClose}
-          cancelButtonProps={{
-            sx: {
-              backgroundColor: "#ffffff",
-              color: "#1976d2",
-              px: 5,
-              py: 1.5,
-              fontWeight: "bold",
-              width: "50%",
-              border: "1px solid #1976d2",
-              "&:hover": {
-                backgroundColor: "#1976d2",
-                color: "#fff",
-              },
-            },
-            children: "إلغاء",
-          }}
+             formButtons={[
+                      <Button
+                        key="save"
+                        variant="contained"
+                        sx={{
+                          backgroundColor: COLORS.PRIMARY,
+                          px: 5,
+                          py: 1.5,
+                          fontWeight: "bold",
+                          "&:hover": {
+                            backgroundColor: "#fff",
+                            color: COLORS.PRIMARY,
+                          },
+                        }}
+                        type="submit"
+                      >
+                        حفظ
+                      </Button>,
+                      <Button
+                        key="cancel"
+                        variant="contained"
+                        sx={{
+                          backgroundColor: "#ffffff",
+                          color: COLORS.PRIMARY,
+                          px: 5,
+                          py: 1.5,
+                          fontWeight: "bold",
+                          border: "1px solid #1976d2",
+                          "&:hover": {
+                            backgroundColor: COLORS.PRIMARY,
+                            color: "#fff",
+                          },
+                        }}
+                        onClick={onClose}
+                        type="button"
+                      >
+                        الغاء
+                      </Button>
+                    ]}
           initialValues={formData}
         />
       </DialogContent>

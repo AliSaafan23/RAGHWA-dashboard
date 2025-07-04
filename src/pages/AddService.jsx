@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import DynamicForm from '../custom/DynamicForm'
+import { COLORS } from '../constants';
+import { Button } from '@mui/material';
 
 /* const fieldsNames = ["كود الخدمة", "اسم الخدمة","نوع الخدمة","الفئة الشجرية" , 
                  "وصف الخدمة","سعر الخدمة","مدة الخدمة","سعر الخدمة","سعر الخدمة بعد الخصم",
@@ -133,42 +135,51 @@ export const AddService = () => {
                     borderRadius: 8,
                   }}
                   fieldWrapperStyle={{ marginBottom: 10 }}
-                  submitButtonProps={{
-                    sx: {
-                      backgroundColor: "#1976d2",
-                      color: "#fff",
-                      px: 5,
-                      py: 1.5,
-                      fontWeight: "bold",
-                      width: "50%",
-                      "&:hover": {
-                        backgroundColor: "#fff",
-                        color: "#1976d2",
-                      },
-                    },
-                    children: "حفظ",
-                  }}
+            
                   showdetailed={true}
                   detailed={detailed}
                   setDetailed={setDetailed}
-                  showCancelButton={true}
                   onCancel={onClose}
-                  cancelButtonProps={{
-                    sx: {
-                      backgroundColor: "#ffffff",
-                      color: "#1976d2",
-                      px: 5,
-                      py: 1.5,
-                      fontWeight: "bold",
-                      width: "50%",
-                      border: "1px solid #1976d2",
-                      "&:hover": {
-                        backgroundColor: "#1976d2",
-                        color: "#fff",
-                      },
-                    },
-                    children: "إلغاء",
-                  }}
+                     formButtons={[
+                              <Button
+                                key="save"
+                                variant="contained"
+                                sx={{
+                                  backgroundColor: COLORS.PRIMARY,
+                                  px: 5,
+                                  py: 1.5,
+                                  fontWeight: "bold",
+                                  "&:hover": {
+                                    backgroundColor: "#fff",
+                                    color: COLORS.PRIMARY,
+                                  },
+                                }}
+                                type="submit"
+                              >
+                                حفظ
+                              </Button>,
+              
+                              <Button
+                                key="cancel"
+                                variant="contained"
+                                sx={{
+                                  backgroundColor: "#ffffff",
+                                  color: COLORS.PRIMARY,
+                                  px: 5,
+                                  py: 1.5,
+                                  fontWeight: "bold",
+                                  border: "1px solid #1976d2",
+                                  "&:hover": {
+                                    backgroundColor: COLORS.PRIMARY,
+                                    color: "#fff",
+                                  },
+                                }}
+                                onClick={onClose}
+                                type="button"
+                              >
+                                الغاء
+                              </Button>
+                            ]}
         />
     </>
   )

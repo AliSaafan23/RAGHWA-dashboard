@@ -6,10 +6,7 @@ import InventoryTransactionForm from './InventoryTransactionForm';
 export default function Header() {
       const [open, setOpen] = useState(false);
     
-      const handleAddSupplier = (data) => {
-        // Handle supplier creation logic here
-        console.log("Supplier Data:", data);
-      };
+
     
       return (
         <Box sx={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:'16px'}}>
@@ -18,7 +15,6 @@ export default function Header() {
             <InventoryTransactionForm
               open={open}
               onClose={() => setOpen(false)}
-              onSubmit={handleAddSupplier}
             />
           </Box>
       );

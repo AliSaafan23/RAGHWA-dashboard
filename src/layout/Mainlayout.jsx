@@ -27,4 +27,3 @@ export const Mainlayout = () => {
     </>
   );
 };
-"/Warehouses/-ادارة-الحركات-المخزنية"

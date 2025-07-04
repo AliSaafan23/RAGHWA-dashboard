@@ -5,12 +5,11 @@ import {
   DialogTitle,
   DialogContent,
   Button,
-  Box,
 } from "@mui/material";
+import { COLORS } from "../../constants";
 
 const warehouseOptions = ["رئيسي", "فرعي 1", "فرعي 2", "مخزن إضافي"];
 const typeOptions = ["توريد", "صرف", "تحويل", "جرد", "إتلاف", "بضاعة أول المدة", "مرتجع مشتريات", "مرتجع مبيعات"];
-const statusOptions = ["معتمدة", "غير معتمدة"];
 
 const baseFields = [
   {
@@ -40,15 +39,6 @@ const baseFields = [
     show: (values) => values.transactionType === "تحويل",
   },
   {
-    name: "warehouse",
-    label: "المستودع",
-    type: "select",
-    options: warehouseOptions,
-    required: true,
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-    show: (values) => !["صرف", "تحويل"].includes(values.transactionType),
-  },
-  {
     name: "date",
     label: "تاريخ الحركة",
     type: "date",
@@ -59,7 +49,7 @@ const baseFields = [
   },
   {
     name: "reference",
-    label: "رقم المرجع (اختياري)",
+    label: " رقم المرجع",
     type: "text",
     required: false,
     sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
@@ -72,43 +62,18 @@ const baseFields = [
     sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
   },
   {
-    name: "items",
-    label: "الأصناف والكميات",
-    type: "custom-table",
-    required: true,
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-  {
     name: "attachments",
-    label: "المرفقات (رفع ملفات)",
+    label: "المرفقات",
     type: "file",
     required: false,
     sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
   },
-  {
-    name: "status",
-    label: "حالة الحركة",
-    type: "select",
-    options: statusOptions,
-    required: false,
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-    show: (values, user) => user && user.isSupervisor,
-  },
-  {
-    name: "executedBy",
-    label: "المستخدم المنفذ",
-    type: "text",
-    required: true,
-    readOnly: true,
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-    show: () => false, // Hide from form, but send in data
-  },
+
 ];
 
-const InventoryTransactionForm = ({ open, onClose, onSubmit, user }) => {
-  const [detailed, setDetailed] = useState(false);
+const InventoryTransactionForm = ({ open, onClose,  }) => {
   const handleFormSubmit = (data) => {
-    onSubmit({ ...data, detailed, executedBy: user?.name });
+    console.log(data);
     onClose();
   };
 
@@ -127,42 +92,64 @@ const InventoryTransactionForm = ({ open, onClose, onSubmit, user }) => {
             borderRadius: 8,
           }}
           fieldWrapperStyle={{ marginBottom: 10 }}
-          submitButtonProps={{
-            sx: {
-              backgroundColor: "#1976d2",
-              color: "#fff",
-              px: 5,
-              py: 1.5,
-              fontWeight: "bold",
-              width: "50%",
-              "&:hover": {
-                backgroundColor: "#fff",
-                color: "#1976d2",
-              },
-            },
-            children: "حفظ",
-          }}
-          showdetailed={true}
-          detailed={detailed}
-          setDetailed={setDetailed}
-          showCancelButton={true}
+          showdetailed={false}
           onCancel={onClose}
-          cancelButtonProps={{
-            sx: {
-              backgroundColor: "#ffffff",
-              color: "#1976d2",
-              px: 5,
-              py: 1.5,
-              fontWeight: "bold",
-              width: "50%",
-              border: "1px solid #1976d2",
-              "&:hover": {
-                backgroundColor: "#1976d2",
-                color: "#fff",
-              },
-            },
-            children: "إلغاء",
-          }}
+           formButtons={[
+             <Button
+               key="save"
+               variant="contained"
+               sx={{
+                 backgroundColor: COLORS.PRIMARY,
+                 px: 5,
+                 py: 1.5,
+                 fontWeight: "bold",
+                 "&:hover": {
+                   backgroundColor: "#fff",
+                   color: COLORS.PRIMARY,
+                 },
+               }}
+               type="submit"
+             >
+               حفظ
+             </Button>,
+             <Button
+               key="save-approve"
+               type="submit"
+               variant="contained"
+               sx={{
+                 backgroundColor: COLORS.PRIMARY,
+                 px: 5,
+                 py: 1.5,
+                 fontWeight: "bold",
+                 "&:hover": {
+                   backgroundColor: "#fff",
+                   color: COLORS.PRIMARY,
+                 },
+               }}
+             >
+               حفظ واعتماد
+             </Button>,
+             <Button
+               key="cancel"
+               variant="contained"
+               sx={{
+                 backgroundColor: "#ffffff",
+                 color: COLORS.PRIMARY,
+                 px: 5,
+                 py: 1.5,
+                 fontWeight: "bold",
+                 border: "1px solid #1976d2",
+                 "&:hover": {
+                   backgroundColor: COLORS.PRIMARY,
+                   color: "#fff",
+                 },
+               }}
+               onClick={onClose}
+               type="button"
+             >
+               الغاء
+             </Button>
+           ]}
         />
       </DialogContent>
     </Dialog>
