@@ -169,7 +169,7 @@ const InventoryTransactionForm = ({ open, onClose }) => {
                   color: "#fff",
                 },
               }}
-              onClick={onClose}
+              onClick={() => onClose(false)}
               type="button"
             >
               الغاء

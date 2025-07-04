@@ -69,7 +69,7 @@ export default function AddItemForm({open,onClose}) {
                 <Button
                   key="cancel"
                   variant="outlined"
-                  onClick={onClose}
+                  onClick={() => onClose(false)}
                   sx={{ fontWeight: "bold", px: 4, py: 1.5 }}
                 >
                   إلغاء
