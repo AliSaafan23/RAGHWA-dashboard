@@ -13,7 +13,7 @@ export const SharedLayout = () => {
         sx={{
           background: "linear-gradient(135deg, #e2e5e9 0%, #e4e8f0 100%)",
           pt: 2,
-          pl: 3,
+          pl: 2,
         }}
         gap={2}
         display={"flex"}
@@ -23,11 +23,12 @@ export const SharedLayout = () => {
         <Box
           sx={{
             flexGrow: 1,
-            bgcolor: "#ffffff",
+            bgcolor: "#fff",
             borderRadius: "16px",
-            padding: 3,
+            padding: 2,
             minHeight: "100vh",
             marginBottom: "16px",
+            marginRight: "30px",
             display: "flex",
             flexDirection: "column",
           }}
