@@ -5,21 +5,21 @@ import { store } from "./redux/Store.js";
 import { Provider } from "react-redux";
 import "./css/global.module.css"; // Import global styles
 import { Mainlayout } from "./layout/Mainlayout.jsx";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
-import { prefixer } from 'stylis';
-import rtlPlugin from 'stylis-plugin-rtl';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { CacheProvider } from "@emotion/react";
+import createCache from "@emotion/cache";
+import { prefixer } from "stylis";
+import rtlPlugin from "stylis-plugin-rtl";
 
 // Create RTL cache for Emotion
 const cacheRtl = createCache({
-  key: 'mui-rtl',
+  key: "mui-rtl",
   stylisPlugins: [prefixer, rtlPlugin],
 });
 
 // Create an RTL theme
 const theme = createTheme({
-  direction: 'rtl',
+  direction: "rtl",
   typography: {
     fontFamily: '"Noto Sans Arabic", sans-serif', // Arabic font
   },
@@ -29,10 +29,10 @@ createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <CacheProvider value={cacheRtl}>
         <ThemeProvider theme={theme}>
-           <div dir="rtl">
+          <div className="App" dir="rtl">
             {/* <Dashboard /> */}
             <Mainlayout />
-          </div>  
+          </div>
         </ThemeProvider>
       </CacheProvider>
     </Provider>
