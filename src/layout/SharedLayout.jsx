@@ -11,11 +11,11 @@ export const SharedLayout = () => {
         position={"relative"}
         justifyContent={"space-between"}
         sx={{
-          background: "linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%)",
+          background: "linear-gradient(135deg, #e2e5e9 0%, #e4e8f0 100%)",
           pt: 2,
           pl: 3,
         }}
-        gap={6}
+        gap={2}
         display={"flex"}
         flexDirection={"row"}
       >
@@ -26,7 +26,7 @@ export const SharedLayout = () => {
             bgcolor: "#ffffff",
             borderRadius: "16px",
             padding: 3,
-            minHeight: "100vh", 
+            minHeight: "100vh",
             marginBottom: "16px",
             display: "flex",
             flexDirection: "column",
