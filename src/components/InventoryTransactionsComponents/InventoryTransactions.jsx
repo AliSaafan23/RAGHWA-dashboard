@@ -1,4 +1,4 @@
-import Header from './Header'
+import Header from '../Header'
 import Filter from './Filter'
 import { Box } from '@mui/material';
 import Table from './Table';

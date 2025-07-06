@@ -1,4 +1,4 @@
-import Header from './Header'
+import Header from '../Header'
 import { Box, Button } from '@mui/material';
 import Table from './Table';
 import { useState } from 'react';
