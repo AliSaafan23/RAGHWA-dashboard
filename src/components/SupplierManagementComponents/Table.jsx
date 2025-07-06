@@ -4,9 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { IconButton, Stack } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { resize } from "framer-motion";
-import { COLORS } from "../../../constants";
-import { tr } from "framer-motion/client";
+import { COLORS } from "../../constants";
 
 const rows = [
   {
@@ -63,25 +61,17 @@ const columns = [
     sortable: false,
     renderCell: (params) => (
       <Stack direction="row" spacing={1}>
-        <IconButton
-          color="primary"
-          onClick={() => onEdit(params.row)}
-          size="small"
-        >
+        <IconButton color="primary" onClick={() => onEdit(params.row)} size="small">
           <EditIcon />
         </IconButton>
-        <IconButton
-          color="error"
-          onClick={() => onDelete(params.row.id)}
-          size="small"
-        >
+        <IconButton color="error" onClick={() => onDelete(params.row.id)} size="small">
           <DeleteIcon />
         </IconButton>
       </Stack>
     ),
   },
 ];
-const SupplierTable = () => {
+const Table = () => {
   return (
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
@@ -124,4 +114,4 @@ const SupplierTable = () => {
   );
 };
 
-export default SupplierTable;
+export default Table;

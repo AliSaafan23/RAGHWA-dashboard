@@ -23,7 +23,6 @@ const containerVariants = {
 };
 
 function Dashboard() {
-  
   const theme = useTheme();
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -45,19 +44,15 @@ function Dashboard() {
   };
 
   return (
-    
     <Box
       sx={{
         display: "flex",
         gap: 6,
-       
+
         minHeight: "100vh",
         fontFamily: "'Cairo', 'Segoe UI', sans-serif",
-        
-       
       }}
     >
-      
       <Box
         component="main"
         sx={{
@@ -67,9 +62,7 @@ function Dashboard() {
           position: "relative",
           borderRadius: "16px",
           backgroundColor: "white",
-          margin:"0px 16px 0px 0px",
-
-
+          margin: "0px 16px 0px 0px",
         }}
       >
         {/* Water drop animation in background */}
@@ -113,9 +106,9 @@ function Dashboard() {
           ))}
         </Box>
 
-       <Box >
-       <TopBar title={"مغسلة السيارات الذكية"} />
-       </Box>
+        <Box>
+          <TopBar title={"مغسلة السيارات الذكية"} />
+        </Box>
 
         {/* Stats Cards */}
         <motion.div
@@ -129,19 +122,18 @@ function Dashboard() {
 
         {/* Current Washing Status and Services */}
         <Grid container spacing={1} sx={{ mb: 4 }}>
-            <Grid size={{ xs: 12, md: 5 }}>
-               <WashingQueueCard />
-            </Grid>
-            <Grid size={{ xs: 12, md: 7 }} height={"420px"} >
-              <OverviewChart  height={"420px"}  view="sales" isDashboard={true}  />
-            </Grid>
+          <Grid size={{ xs: 12, md: 5 }}>
+            <WashingQueueCard />
+          </Grid>
+          <Grid size={{ xs: 12, md: 7 }} height={"420px"}>
+            <OverviewChart height={"420px"} view="sales" isDashboard={true} />
+          </Grid>
         </Grid>
 
         <Grid container spacing={1} sx={{ mb: 4 }}>
-            <Grid size={{ xs: 12, md: 5 }}>
-              <BreakdownChart isDashboard={true}  />
-            </Grid>
-            
+          <Grid size={{ xs: 12, md: 5 }}>
+            <BreakdownChart isDashboard={true} />
+          </Grid>
         </Grid>
 
         {/* Branch Management Section */}
