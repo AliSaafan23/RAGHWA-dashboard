@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import DynamicForm from '../custom/DynamicForm'
-import { COLORS } from '../constants';
-import { Button } from '@mui/material';
+import DynamicForm from '../../custom/DynamicForm'
+import { COLORS } from '../../constants';
+import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
 
 /* eslint-disable */
 /* const fieldsNames = ["كود الخدمة", "اسم الخدمة","نوع الخدمة","الفئة الشجرية" , 
@@ -112,16 +112,18 @@ const fields = [
     }
 ];
 
-export const AddService = () => {
-    const [open, setOpen] = useState(false);
-        const  onClose=() => setOpen(false)
-        const  onSubmit=(data) => console.log(data)
+export const AddService = ({open, onClose, onSubmit}) => {
+   
     const [detailed, setDetailed] = useState(false);
     
-      const handleFormSubmit = (data) => {
-        onSubmit({ ...data, detailed });
+    const handleFormSubmit = (data) => {
+        if (onSubmit) {
+            onSubmit({ ...data, detailed });
+        } else {
+            console.log(data);
+        }
         onClose();
-      };
+    };
 
       const formButtons = (
         <>
@@ -165,63 +167,68 @@ export const AddService = () => {
       );
 
   return (
-    <>
-        <h1>ادارة الخدمات</h1>
-        <DynamicForm
-                  fields={fields}
-                  onSubmit={handleFormSubmit}
-                  formStyle={{
-                    backgroundColor: "#fafafa",
-                    padding: 0,
-                    borderRadius: 8,
-                  }}
-                  fieldWrapperStyle={{ marginBottom: 10 }}
-            
-                  showdetailed={true}
-                  detailed={detailed}
-                  setDetailed={setDetailed}
-                  onCancel={onClose}
-                     formButtons={[
-                              <Button
-                                key="save"
-                                variant="contained"
-                                sx={{
-                                  backgroundColor: COLORS.PRIMARY,
-                                  px: 5,
-                                  py: 1.5,
-                                  fontWeight: "bold",
-                                  "&:hover": {
-                                    backgroundColor: "#fff",
-                                    color: COLORS.PRIMARY,
-                                  },
-                                }}
-                                type="submit"
-                              >
-                                حفظ
-                              </Button>,
-              
-                              <Button
-                                key="cancel"
-                                variant="contained"
-                                sx={{
-                                  backgroundColor: "#ffffff",
-                                  color: COLORS.PRIMARY,
-                                  px: 5,
-                                  py: 1.5,
-                                  fontWeight: "bold",
-                                  border: "1px solid #1976d2",
-                                  "&:hover": {
-                                    backgroundColor: COLORS.PRIMARY,
-                                    color: "#fff",
-                                  },
-                                }}
-                                onClick={onClose}
-                                type="button"
-                              >
-                                الغاء
-                              </Button>
-                            ]}
-        />
-    </>
+      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm" dir="rtl">
+          <DialogTitle sx={{ color: COLORS.PRIMARY, fontWeight: "bold", fontSize: 24 }}>
+            إضافة خدمة
+          </DialogTitle>
+          <DialogContent>
+            <DynamicForm
+                      fields={fields}
+                      onSubmit={handleFormSubmit}
+                      formStyle={{
+                        backgroundColor: "#fafafa",
+                        padding: 0,
+                        borderRadius: 8,
+                      }}
+                      fieldWrapperStyle={{ marginBottom: 10 }}
+                
+                      showdetailed={true}
+                      detailed={detailed}
+                      setDetailed={setDetailed}
+                      onCancel={onClose}
+                        formButtons={[
+                                  <Button
+                                    key="save"
+                                    variant="contained"
+                                    sx={{
+                                      backgroundColor: COLORS.PRIMARY,
+                                      px: 5,
+                                      py: 1.5,
+                                      fontWeight: "bold",
+                                      "&:hover": {
+                                        backgroundColor: "#fff",
+                                        color: COLORS.PRIMARY,
+                                      },
+                                    }}
+                                    type="submit"
+                                  >
+                                    حفظ
+                                  </Button>,
+                  
+                                  <Button
+                                    key="cancel"
+                                    variant="contained"
+                                    sx={{
+                                      backgroundColor: "#ffffff",
+                                      color: COLORS.PRIMARY,
+                                      px: 5,
+                                      py: 1.5,
+                                      fontWeight: "bold",
+                                      border: "1px solid #1976d2",
+                                      "&:hover": {
+                                        backgroundColor: COLORS.PRIMARY,
+                                        color: "#fff",
+                                      },
+                                    }}
+                                    onClick={onClose}
+                                    type="button"
+                                  >
+                                    الغاء
+                                  </Button>
+                                ]}
+            />
+        </DialogContent>
+      </Dialog>
+    
   )
 }
