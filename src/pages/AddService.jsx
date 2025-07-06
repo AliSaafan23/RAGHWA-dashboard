@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import DynamicForm from '../custom/DynamicForm'
+import { Button } from '@mui/material'
 
+/* eslint-disable */
 /* const fieldsNames = ["كود الخدمة", "اسم الخدمة","نوع الخدمة","الفئة الشجرية" , 
                  "وصف الخدمة","سعر الخدمة","مدة الخدمة","سعر الخدمة","سعر الخدمة بعد الخصم",
                  "السبارة المستهدفة","وحدة التنفيذ","صورة رمزية","الملحقات المضافة","ملاحظات إدارية","تفعيل الخدمة",
@@ -9,7 +11,7 @@ import DynamicForm from '../custom/DynamicForm'
 const fields = [
     {
         name: "service Code",
-        label: "كود الحدمة",
+        label: "كودالخدمة",
         type: "text",
         required: true,
         sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
@@ -94,13 +96,6 @@ const fields = [
         sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
     },
     {
-        name: "service Attachments",
-        label: "القيمة ",
-        type: "text",
-        required: false,
-        sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-    },
-    {
         name: "service Notes",
         label: "ملاحظات إدارية",
         type: "text",
@@ -127,6 +122,46 @@ export const AddService = () => {
         onClose();
       };
 
+      const formButtons = (
+        <>
+          <Button
+            type="submit"
+            sx={{
+              backgroundColor: "#1976d2",
+              color: "#fff",
+              px: 5,
+              py: 1.5,
+              fontWeight: "bold",
+              width: "50%",
+              "&:hover": {
+                backgroundColor: "#fff",
+                color: "#1976d2",
+              },
+            }}
+          >
+            حفظ
+          </Button>
+          <Button
+            type="button"
+            onClick={onClose}
+            sx={{
+              backgroundColor: "#ffffff",
+              color: "#1976d2",
+              px: 5,
+              py: 1.5,
+              fontWeight: "bold",
+              width: "50%",
+              border: "1px solid #1976d2",
+              "&:hover": {
+                backgroundColor: "#1976d2",
+                color: "#fff",
+              },
+            }}
+          >
+            إلغاء
+          </Button>
+        </>
+      );
 
   return (
     <>
@@ -140,42 +175,7 @@ export const AddService = () => {
                     borderRadius: 8,
                   }}
                   fieldWrapperStyle={{ marginBottom: 10 }}
-                  submitButtonProps={{
-                    sx: {
-                      backgroundColor: "#1976d2",
-                      color: "#fff",
-                      px: 5,
-                      py: 1.5,
-                      fontWeight: "bold",
-                      width: "50%",
-                      "&:hover": {
-                        backgroundColor: "#fff",
-                        color: "#1976d2",
-                      },
-                    },
-                    children: "حفظ",
-                  }}
-                  showdetailed={true}
-                  detailed={detailed}
-                  setDetailed={setDetailed}
-                  showCancelButton={true}
-                  onCancel={onClose}
-                  cancelButtonProps={{
-                    sx: {
-                      backgroundColor: "#ffffff",
-                      color: "#1976d2",
-                      px: 5,
-                      py: 1.5,
-                      fontWeight: "bold",
-                      width: "50%",
-                      border: "1px solid #1976d2",
-                      "&:hover": {
-                        backgroundColor: "#1976d2",
-                        color: "#fff",
-                      },
-                    },
-                    children: "إلغاء",
-                  }}
+                  formButtons={formButtons}
         />
     </>
   )
