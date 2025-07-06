@@ -5,6 +5,7 @@ import SupplierCreation from "../pages/SupplierCreation";
 import { SharedLayout } from "./SharedLayout";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ServiceManagement from "../pages/ServiceManagement";
+import StorageManagement from "../pages/StorageManagement";
 export const Mainlayout = () => {
   return (
     <>
@@ -14,6 +15,7 @@ export const Mainlayout = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/Warehouses/ادارة-الخدمات" element={<ServiceManagement />} />
+            <Route path="/Warehouses/ادارة-الفروع" element={<StorageManagement />} />
             <Route
               path="/Warehouses/ادارة-المورديين"
               element={<SupplierCreation />}
