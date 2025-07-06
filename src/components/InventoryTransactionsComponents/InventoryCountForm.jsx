@@ -77,7 +77,6 @@ export default function InventoryCountForm({open,onClose}) {
               fieldWrapperStyle={{ marginBottom: 10 }}
               showdetailed={false}
               onCancel={onClose}
-            //   extraItems={   }
               formButtons={[
                 <Button
                   key="save"
