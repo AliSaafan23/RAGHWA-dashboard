@@ -49,7 +49,7 @@ const fields = [
         label: "سعر الخدمة",
         type: "text",
         required: true,
-        sx: { backgroundColor: "#f5f5f5" ,direction:"rtl" },
+        sx: { backgroundColor: "#f5f5f5" , },
     },
     {
         name: "service Duration",
@@ -89,7 +89,14 @@ const fields = [
     {
         name: "service Attachments",
         label: "الملحقات المضافة",
-        type: "file",
+        type: "text",
+        required: false,
+        sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
+    },
+    {
+        name: "service Attachments",
+        label: "القيمة ",
+        type: "text",
         required: false,
         sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
     },
