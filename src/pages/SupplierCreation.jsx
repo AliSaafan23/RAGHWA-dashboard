@@ -6,9 +6,9 @@ import SupplierTable from "../components/PurchasingManagement/Suppliers/Supplier
 
 const SupplierCreation = () => {
   return (
-        <Box sx={{display:'flex',flexDirection:'column',gap:4,}}>
-    <Header/>
-    <SupplierTable/>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
+      <Header />
+      <SupplierTable />
       <SupplierCreationForm />
     </Box>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import DynamicForm from '../custom/DynamicForm'
-import { Button } from '@mui/material'
+import { COLORS } from '../constants';
+import { Button } from '@mui/material';
 
 /* eslint-disable */
 /* const fieldsNames = ["كود الخدمة", "اسم الخدمة","نوع الخدمة","الفئة الشجرية" , 
@@ -175,7 +176,51 @@ export const AddService = () => {
                     borderRadius: 8,
                   }}
                   fieldWrapperStyle={{ marginBottom: 10 }}
-                  formButtons={formButtons}
+            
+                  showdetailed={true}
+                  detailed={detailed}
+                  setDetailed={setDetailed}
+                  onCancel={onClose}
+                     formButtons={[
+                              <Button
+                                key="save"
+                                variant="contained"
+                                sx={{
+                                  backgroundColor: COLORS.PRIMARY,
+                                  px: 5,
+                                  py: 1.5,
+                                  fontWeight: "bold",
+                                  "&:hover": {
+                                    backgroundColor: "#fff",
+                                    color: COLORS.PRIMARY,
+                                  },
+                                }}
+                                type="submit"
+                              >
+                                حفظ
+                              </Button>,
+              
+                              <Button
+                                key="cancel"
+                                variant="contained"
+                                sx={{
+                                  backgroundColor: "#ffffff",
+                                  color: COLORS.PRIMARY,
+                                  px: 5,
+                                  py: 1.5,
+                                  fontWeight: "bold",
+                                  border: "1px solid #1976d2",
+                                  "&:hover": {
+                                    backgroundColor: COLORS.PRIMARY,
+                                    color: "#fff",
+                                  },
+                                }}
+                                onClick={onClose}
+                                type="button"
+                              >
+                                الغاء
+                              </Button>
+                            ]}
         />
     </>
   )
