@@ -7,7 +7,7 @@ export default function Table({ rows, columns }) {
   return (
       <DataGrid
       sx={{   
-         height: 400, width: "880px",      
+         height: 400, width: "100%",      
         '& .MuiDataGrid-cell': {
           display: 'flex',
           alignItems: 'center',
