@@ -38,7 +38,7 @@ export default function InventoryItemManagement() {
           </Button>
         </Box>
         <Table rows={rows} columns={columns} />
-        <AddItemForm open={open} onClose={setOpen} />
+        <AddItemForm open={open} setOpen={setOpen} />
       </Box>
     );
 }

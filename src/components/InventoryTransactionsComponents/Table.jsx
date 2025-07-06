@@ -7,11 +7,9 @@ import { COLORS } from '../../constants';
 
 export default function Table({rows,columns}) {
   return (
-    <Box sx={{ height: 400, width: '100%',  }}>
       <DataGrid
-      
-      sx={{
-        
+      sx={{   
+         height: 400, width: "880px",      
         '& .MuiDataGrid-cell': {
           display: 'flex',
           alignItems: 'center',
@@ -46,6 +44,5 @@ export default function Table({rows,columns}) {
         disableRowSelectionOnClick
         autoHeight={false}
       />
-    </Box>
   );
 }

@@ -9,7 +9,6 @@ export default function TabBarComponent({tabs,tabPanels}) {
         setValue(newValue);
     }
   return (
-    console.log("tabs",tabs,'tab panels',tabPanels),
     <TabContext value={value}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <TabList onChange={handleChange}>

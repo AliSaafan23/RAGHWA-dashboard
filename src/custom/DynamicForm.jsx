@@ -48,7 +48,8 @@ const DynamicForm = ({
           fullWidth = true,
         } = field;
 
-        if (type === "select") {
+
+        if (type === "select" || type === "multiselect") {
           return (
             <FormControl
               fullWidth={fullWidth}
@@ -59,9 +60,19 @@ const DynamicForm = ({
             >
               <InputLabel>{label}</InputLabel>
               <Select
-                value={formData[name] || ""}
+                multiple={type === "multiselect"}
+                value={formData[name] || (type === "multiselect" ? [] : "")}
                 label={label}
-                onChange={(e) => handleChange(name, e.target.value)}
+                onChange={(e) =>
+                  handleChange(
+                    name,
+                    type === "multiselect"
+                      ? typeof e.target.value === "string"
+                        ? e.target.value.split(",")
+                        : e.target.value
+                      : e.target.value
+                  )
+                }
                 sx={{
                   textAlign: "right",
                   "& .MuiSelect-select": {
@@ -87,6 +98,11 @@ const DynamicForm = ({
                     },
                   },
                 }}
+                renderValue={
+                  type === "multiselect"
+                    ? (selected) => (Array.isArray(selected) ? selected.join(", ") : "")
+                    : undefined
+                }
               >
                 {options.map((opt) => (
                   <MenuItem key={opt} value={opt}>

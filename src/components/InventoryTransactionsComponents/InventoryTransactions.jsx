@@ -78,7 +78,7 @@ const rows = [
             <Table rows={rows} columns={columns} />
                <InventoryTransactionForm
               open={open}
-              onClose={setOpen}
+             setOpen={setOpen}
             />
         </Box>
     )
