@@ -73,17 +73,32 @@ const ReceiptOfPurchaseOrderformFields = [
   },
 ];
 
-export default function ReceiptOfPurchaseOrderForm({ open, onClose }) {
-  // Example static products, replace with real data as needed
+export default function ReceiptOfPurchaseOrderForm({ open, onClose, onAddInvoice }) {
   const [receivedItems, setReceivedItems] = useState([
-    { id: 1, name: "زيت محركات شل 30", requiredQty: 10, receivedQty: 0, unit: "لتر", difference: 10 },
-    { id: 2, name: "Shell Engine Oil 5W-20", requiredQty: 5, receivedQty: 0, unit: "لتر", difference: 5 },
+    { id: 1, name: "زيت محركات شل 30", requiredQty: 10, receivedQty: 0, unit: "لتر", unitPrice: 100, difference: 10 },
+    {
+      id: 2,
+      name: "Shell Engine Oil 5W-20",
+      requiredQty: 5,
+      receivedQty: 0,
+      unit: "لتر",
+      unitPrice: 100,
+      difference: 5,
+    },
   ]);
+  const [isReceiptApproved, setIsReceiptApproved] = useState(false);
+  const [approvedReceiptData, setApprovedReceiptData] = useState(null);
 
   const handleFormSubmit = (data) => {
-    // Add received items to form data
-    console.log({ ...data, receivedItems });
-    onClose();
+    setIsReceiptApproved(true);
+    setApprovedReceiptData({ ...data, receivedItems });
+  };
+
+  const handleAddInvoice = () => {
+    if (!isReceiptApproved) return;
+    if (onAddInvoice) {
+      onAddInvoice({ ...approvedReceiptData, items: receivedItems }); // Pass items
+    }
   };
 
   return (
@@ -117,9 +132,34 @@ export default function ReceiptOfPurchaseOrderForm({ open, onClose }) {
                 },
               }}
               type="submit"
+              disabled={isReceiptApproved} // Prevent double approval
             >
               حفظ
             </Button>,
+            <Button
+              key="add-invoice"
+              variant="contained"
+              sx={{
+                backgroundColor: "success.main",
+                color: "#fff",
+                px: 5,
+                py: 1.5,
+                fontWeight: "bold",
+                border: "1px solid",
+                borderColor: "success.dark",
+                "&:hover": {
+                  backgroundColor: "#fff",
+                  color: "success.main",
+                  borderColor: "success.main",
+                },
+              }}
+              onClick={handleAddInvoice}
+              type="button"
+              disabled={!isReceiptApproved}
+            >
+              إضافة فاتورة جديدة
+            </Button>,
+
             <Button
               key="cancel"
               variant="contained"

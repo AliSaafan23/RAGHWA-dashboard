@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SupplierCreationForm from "../components/SupplierManagementComponents/SupplierCreationForm";
-import Header from "../components/SupplierManagementComponents/Header";
+import Header from "../components/Header";
 import { Box } from "@mui/material";
 import Table from "../components/SupplierManagementComponents/Table";
 

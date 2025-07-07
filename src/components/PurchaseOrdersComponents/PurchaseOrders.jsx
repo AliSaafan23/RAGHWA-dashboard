@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "./Header";
+import Header from "../Header.jsx";
 import PurchaseOrdersForm from "./PurchaseOrdersForm";
 import Table from "./Table";
 import { Box, IconButton, Stack, Button } from "@mui/material";
@@ -8,10 +8,19 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ReceiptIcon from "@mui/icons-material/ReceiptLong";
 import AddIcon from "@mui/icons-material/Add";
 import ReceiptOfPurchaseOrderForm from "./ReceiptOfPurchaseOrderForm"; // 1. Import the form
+import PurchaseInvoiceForm from "./PurchaseInvoiceForm";
 
 export default function PurchaseOrders() {
   const [open, setOpen] = useState(false);
   const [openReceipt, setOpenReceipt] = useState(false); // 2. State for receipt form
+  const [openInvoice, setOpenInvoice] = useState(false);
+  const [invoiceData, setInvoiceData] = useState(null);
+
+  // Handler to open invoice form with data from receipt
+  const handleOpenInvoice = (receiptData) => {
+    setInvoiceData(receiptData);
+    setOpenInvoice(true);
+  };
 
   const columns = [
     { field: "id", headerName: "رقم الامر", resizable: false },
@@ -44,21 +53,9 @@ export default function PurchaseOrders() {
               color="success"
               size="small"
               startIcon={<ReceiptIcon />}
-              onClick={() => setOpenReceipt(true)} // 3. Open receipt form
+              onClick={() => setOpenReceipt(true)}
             >
               استلام
-            </Button>
-          )}
-
-          {params.row.status === "مكتمل" && (
-            <Button
-              variant="contained"
-              color="info"
-              size="small"
-              startIcon={<AddIcon />}
-              onClick={() => console.log("Add invoice")}
-            >
-              إضافة فاتورة
             </Button>
           )}
         </Stack>
@@ -95,7 +92,16 @@ export default function PurchaseOrders() {
       {/* <Filter inputs={InventoryFilters} /> */}
       <Table rows={rows} columns={columns} />
       <PurchaseOrdersForm open={open} onClose={setOpen} />
-      <ReceiptOfPurchaseOrderForm open={openReceipt} onClose={setOpenReceipt} />
+      <ReceiptOfPurchaseOrderForm
+        open={openReceipt}
+        onClose={setOpenReceipt}
+        onAddInvoice={handleOpenInvoice} // Pass handler as prop
+      />
+      <PurchaseInvoiceForm
+        open={openInvoice}
+        onClose={setOpenInvoice}
+        initialData={invoiceData} // Pass data to invoice form
+      />
     </Box>
   );
 }

@@ -1,35 +1,14 @@
 import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-  Box,
-  Typography,
-} from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box, Typography } from "@mui/material";
 
-export default function ReceivedItemsTable({ items, setItems }) {
-  const handleReceivedQtyChange = (idx, value) => {
-    const updated = items.map((item, i) =>
-      i === idx
-        ? {
-            ...item,
-            receivedQty: value,
-            difference: value !== "" ? Number(item.requiredQty) - Number(value) : item.requiredQty,
-          }
-        : item
-    );
-    setItems(updated);
-  };
+export default function InvoiceItemsTable({ items }) {
+  if (!items || !items.length) return null;
 
-  // Calculate total per item and invoice total
+  // Calculate total for each row and the invoice total
   const rows = items.map((row) => ({
     ...row,
     unitPrice: row.unitPrice ?? row.price ?? 0,
-    total: (row.unitPrice ?? row.price ?? 0) * (row.receivedQty || 0),
+    total: (row.unitPrice ?? row.price ?? 0) * (row.receivedQty ?? row.quantity ?? 0),
   }));
   const invoiceTotal = rows.reduce((sum, row) => sum + Number(row.total), 0);
 
@@ -40,46 +19,31 @@ export default function ReceivedItemsTable({ items, setItems }) {
           <TableHead>
             <TableRow>
               <TableCell align="right">اسم المنتج</TableCell>
-              <TableCell align="right">الكمية المطلوبة</TableCell>
               <TableCell align="right">الكمية المستلمة</TableCell>
               <TableCell align="right">الوحدة</TableCell>
               <TableCell align="right">سعر الوحدة</TableCell>
               <TableCell align="right">الإجمالي</TableCell>
-              <TableCell align="right">الفرق</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row, idx) => (
               <TableRow key={row.id || idx}>
                 <TableCell align="right">{row.name}</TableCell>
-                <TableCell align="right">{row.requiredQty}</TableCell>
-                <TableCell align="right">
-                  <TextField
-                    type="number"
-                    size="small"
-                    value={row.receivedQty}
-                    onChange={(e) => handleReceivedQtyChange(idx, e.target.value)}
-                    sx={{ width: 80 }}
-                  />
-                </TableCell>
+                <TableCell align="right">{row.receivedQty ?? row.quantity}</TableCell>
                 <TableCell align="right">{row.unit}</TableCell>
                 <TableCell align="right">{row.unitPrice?.toLocaleString() ?? 0}</TableCell>
                 <TableCell align="right">{row.total?.toLocaleString() ?? 0}</TableCell>
-                <TableCell align="right">
-                  {row.difference !== undefined ? row.difference : row.requiredQty - (row.receivedQty || 0)}
-                </TableCell>
               </TableRow>
             ))}
             <TableRow>
-              <TableCell colSpan={5} align="left">
-                <Typography fontWeight="bold">الإجمالي الكلي</Typography>
+              <TableCell colSpan={4} align="left">
+                <Typography fontWeight="bold">الإجمالي الكلي للفاتورة</Typography>
               </TableCell>
               <TableCell align="right">
                 <Typography fontWeight="bold" color="primary">
                   {invoiceTotal.toLocaleString()}
                 </Typography>
               </TableCell>
-              <TableCell />
             </TableRow>
           </TableBody>
         </Table>
