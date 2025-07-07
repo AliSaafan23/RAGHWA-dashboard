@@ -10,7 +10,17 @@ import {
   Button,
   Switch,
   Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  Typography,
 } from "@mui/material";
+import { Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
 
 const DynamicForm = ({
   fields,
@@ -21,14 +31,43 @@ const DynamicForm = ({
   extraItems,
 }) => {
   const [formData, setFormData] = useState({});
+  const [attachments, setAttachments] = useState([]);
+  const [attachmentInput, setAttachmentInput] = useState({
+    category: "",
+    value: "",
+  });
 
   const handleChange = (name, value) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleAttachmentInputChange = (field, value) => {
+    setAttachmentInput((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleAddAttachment = () => {
+    if (attachmentInput.category && attachmentInput.value) {
+      const newAttachment = {
+        id: Date.now(),
+        category: attachmentInput.category,
+        value: attachmentInput.value,
+      };
+      setAttachments((prev) => [...prev, newAttachment]);
+      setAttachmentInput({ category: "", value: "" });
+    }
+  };
+
+  const handleRemoveAttachment = (id) => {
+    setAttachments((prev) => prev.filter((item) => item.id !== id));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    const submitData = {
+      ...formData,
+      serviceAttachments: attachments.map(({ id, ...rest }) => rest),
+    };
+    onSubmit(submitData);
   };
 
   return (
@@ -47,6 +86,74 @@ const DynamicForm = ({
           variant = "outlined",
           fullWidth = true,
         } = field;
+
+        // Special case for "الملحقات المضافة"
+        if (label === "الملحقات المضافة") {
+          return (
+            <Box key={name} sx={{ ...sx }} style={fieldWrapperStyle}>
+              <Typography variant="h6" sx={{ mb: 2}}>
+                {label}
+              </Typography>
+              
+              {/* Input fields for category and value */}
+              <Box sx={{ display: "flex", gap: 2, mb: 2, alignItems: "center" }}>
+                <TextField
+                  label="الصنف"
+                  value={attachmentInput.category}
+                  onChange={(e) => handleAttachmentInputChange("category", e.target.value)}
+                  variant={variant}
+                  sx={{ flex: 1 }}
+                />
+                <TextField
+                  label="القيمة"
+                  value={attachmentInput.value}
+                  onChange={(e) => handleAttachmentInputChange("value", e.target.value)}
+                  variant={variant}
+                  sx={{ flex: 1 }}
+                />
+                <Button
+                  variant="contained"
+                  onClick={handleAddAttachment}
+                  startIcon={<AddIcon />}
+                  disabled={!attachmentInput.category || !attachmentInput.value}
+                >
+                  إضافة
+                </Button>
+              </Box>
+
+              {/* Table to display attachments */}
+              {attachments.length > 0 && (
+                <TableContainer component={Paper} sx={{ mt: 2 }}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="right">الصنف</TableCell>
+                        <TableCell align="right">القيمة</TableCell>
+                        <TableCell align="center">الإجراءات</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {attachments.map((attachment) => (
+                        <TableRow key={attachment.id}>
+                          <TableCell align="right">{attachment.category}</TableCell>
+                          <TableCell align="right">{attachment.value}</TableCell>
+                          <TableCell align="center">
+                            <IconButton
+                              color="error"
+                              onClick={() => handleRemoveAttachment(attachment.id)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              )}
+            </Box>
+          );
+        }
 
         if (type === "select") {
           return (
