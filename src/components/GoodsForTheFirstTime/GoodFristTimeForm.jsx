@@ -1,101 +1,60 @@
 import React, { useState } from "react";
 import DynamicForm from "../../custom/DynamicForm";
-import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import { COLORS } from "../../constants";
 import DynamicEditableTable from "../../custom/DynamicEditableTable"; // Import the dynamic table
+import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material";
+import { COLORS } from "../../constants";
 
-const PurchaseOrdersFormFields = [
-  {
-    name: "orderNumber",
-    label: "رقم الأمر",
-    type: "text",
-    required: true,
-    placeholder: "مثال: PO-1005",
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-  {
-    name: "supplier",
-    label: "اسم المورد",
-    type: "select",
-    options: ["مورد 1", "مورد 2", "مورد 3"], // يفضل تجي من API أو useState
-    required: true,
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-  {
-    name: "orderDate",
-    label: "تاريخ الطلب",
-    type: "date",
-    required: true,
-    defaultValue: new Date().toISOString().slice(0, 10),
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-  {
-    name: "paymentType",
-    label: "نوع الدفع",
-    type: "select",
-    required: true,
-    options: ["نقدي", "آجل", "تحويل بنكي"],
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
+const OpeningInventoryFormFields = [
   {
     name: "warehouse",
-    label: "مستودع التوريد",
+    label: "المستودع",
     type: "select",
     required: true,
-    options: ["المخزن الرئيسي", "مخزن فرعي"],
+    options: ["رئيسي", "مستودع 1", "مستودع 2"],
     sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
   },
   {
-    name: "products",
-    label: "المنتجات المطلوبة",
-    type: "custom",
-  },
-  {
-    name: "attachments",
-    label: "المرفقات",
-    type: "file",
-    required: false,
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-  {
-    name: "notes",
-    label: "ملاحظات",
-    type: "textarea",
-    required: false,
+    name: "entryDate",
+    label: "تاريخ بضاعة أول المدة",
+    type: "date",
+    required: true,
+    defaultValue: "2024-01-01",
     sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
   },
 ];
 
-const productColumns = [
-  { field: "name", headerName: "المنتج", type: "text", required: true },
-  { field: "unit", headerName: "الوحدة", type: "text", required: true },
+const itemColumns = [
+  { field: "itemCode", headerName: "كود الصنف", type: "text", required: true },
+  { field: "itemName", headerName: "اسم الصنف", type: "text", required: true },
+  { field: "unit", headerName: "الوحدة", type: "select", options: ["كرتون", "علبة", "لتر", "قطعة"] },
+  { field: "unitCost", headerName: "تكلفة الوحدة", type: "number", required: true },
   { field: "quantity", headerName: "الكمية", type: "number", required: true },
-  { field: "price", headerName: "السعر", type: "number", required: true },
   {
     field: "total",
     headerName: "الإجمالي",
     type: "readonly",
-    formula: (row) => Number(row.price || 0) * Number(row.quantity || 0),
+    formula: (row) => Number(row.unitCost || 0) * Number(row.quantity || 0),
   },
+  { field: "notes", headerName: "ملاحظات", type: "text" },
 ];
 
-export default function PurchaseOrdersForm({ open, onClose }) {
-  const [products, setProducts] = useState([]);
+export default function GoodFristTimeForm({ open, onClose, initialData }) {
+  const [items, setItems] = useState([]);
 
   const handleFormSubmit = (data) => {
-    // Add products to form data
-    console.log({ ...data, products });
+    // Add items to form data
+    console.log({ ...data, items });
     onClose();
   };
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" dir="rtl">
-      <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30 }}>اضافة أمر شراء جديد</DialogTitle>
+      <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30 }}>اضافة بضاعة اول جديدة</DialogTitle>
       <DialogContent sx={{ backgroundColor: "#fafafa", borderRadius: 2 }}>
         <DynamicForm
-          fields={PurchaseOrdersFormFields}
+          fields={OpeningInventoryFormFields}
           onSubmit={handleFormSubmit}
+          initialValues={initialData || {}}
           formStyle={{
             backgroundColor: "#fafafa",
             padding: 0,
@@ -107,10 +66,11 @@ export default function PurchaseOrdersForm({ open, onClose }) {
           onCancel={onClose}
           extraItems={
             <DynamicEditableTable
-              columns={productColumns}
-              rows={products}
-              setRows={setProducts}
-              addButtonLabel="إضافة منتج"
+              columns={itemColumns}
+              rows={items}
+              setRows={setItems}
+              addButtonLabel="إضافة صنف"
+              sx={{ width: "860px" }}
             />
           }
           formButtons={[

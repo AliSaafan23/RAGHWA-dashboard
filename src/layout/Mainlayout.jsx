@@ -6,6 +6,8 @@ import Supplier from "../pages/Supplier";
 import Purchase from "../pages/Purchase";
 import ServiceManagement from "../pages/ServiceManagement";
 import StorageManagement from "../pages/StorageManagement";
+import { AddService } from "../components/Add Service/AddService";
+import SupplierCreationForm from "../components/SupplierManagementComponents/SupplierCreationForm";
 export const Mainlayout = () => {
   return (
     <>
@@ -20,7 +22,7 @@ export const Mainlayout = () => {
             <Route path="/Warehouses/ادارة-المشتريات" element={<Purchase />} />
             <Route path="/Warehouses/ادارة-الخدمات" element={<ServiceManagement />} />
             <Route path="/Warehouses/ادارة-الفروع" element={<StorageManagement />} />
-            <Route path="/Warehouses/ادارة-المورديين" element={<SupplierCreation />} />
+            <Route path="/Warehouses/ادارة-المورديين" element={<SupplierCreationForm />} />
             <Route path="Warehouses/ادارة-الحركات-المخزنية" element={<Inventory />} />
           </Route>
         </Routes>

@@ -2,7 +2,35 @@ import React, { useState } from "react";
 import DynamicForm from "../../custom/DynamicForm";
 import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material";
 import { COLORS } from "../../constants";
-import InvoiceItemsTable from "./InvoiceItemsTable";
+import DynamicEditableTable from "../../custom/DynamicEditableTable";
+
+// أعمدة جدول الأصناف في الفاتورة
+const invoiceItemColumns = [
+  {
+    field: "name",
+    headerName: "اسم الصنف",
+    type: "text",
+    required: true,
+  },
+  {
+    field: "quantity",
+    headerName: "الكمية",
+    type: "number",
+    required: true,
+  },
+  {
+    field: "price",
+    headerName: "السعر",
+    type: "number",
+    required: true,
+  },
+  {
+    field: "total",
+    headerName: "الإجمالي",
+    type: "readonly",
+    formula: (row) => Number(row.quantity || 0) * Number(row.price || 0),
+  },
+];
 
 const InvoiceFormFields = [
   {
@@ -30,11 +58,10 @@ const InvoiceFormFields = [
     name: "purchaseOrderId",
     label: "رقم أمر الشراء",
     type: "select",
-    options: [], // يتم جلبها من API
+    options: [], // يمكن ملؤها من API لاحقًا
     required: true,
     sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
   },
-  // بيانات للعرض فقط من أمر الشراء المحدد
   {
     name: "orderInfo",
     label: "معلومات الأمر",
@@ -45,7 +72,6 @@ const InvoiceFormFields = [
       { name: "receivedQty", label: "الكميات المستلمة", type: "readonly" },
     ],
   },
-  // تفاصيل الدفع
   {
     name: "invoiceAmount",
     label: "قيمة الفاتورة",
@@ -88,16 +114,19 @@ const InvoiceFormFields = [
   {
     name: "items",
     label: "تفاصيل الأصناف",
-    type: "custom", // جدول القراءة فقط للصنف والكمية والسعر
+    type: "custom",
   },
 ];
 
 export default function PurchaseInvoiceForm({ open, onClose, initialData }) {
+  const [products, setProducts] = useState([]);
+
   const handleFormSubmit = (data) => {
-    // Add products to form data
-    console.log({ ...data, products });
+    const fullData = { ...data, products };
+    console.log(fullData);
     onClose();
   };
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" dir="rtl">
       <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30 }}>اضافة فاتورة شراء جديدة</DialogTitle>
@@ -114,7 +143,15 @@ export default function PurchaseInvoiceForm({ open, onClose, initialData }) {
           fieldWrapperStyle={{ marginBottom: 10 }}
           showdetailed={false}
           onCancel={onClose}
-          extraItems={<InvoiceItemsTable items={initialData?.items || []} />}
+          extraItems={
+            <DynamicEditableTable
+              columns={invoiceItemColumns}
+              rows={products}
+              setRows={setProducts}
+              addButtonLabel="إضافة صنف"
+              readOnly={true}
+            />
+          }
           formButtons={[
             <Button
               key="save"

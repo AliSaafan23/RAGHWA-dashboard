@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import DynamicForm from "../../custom/DynamicForm";
 import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material";
 import { COLORS } from "../../constants";
-import ReceivedItemsTable from "./ReceivedItemsTable";
+import DynamicEditableTable from "../../custom/DynamicEditableTable";
 
 const ReceiptOfPurchaseOrderformFields = [
   {
@@ -10,7 +10,7 @@ const ReceiptOfPurchaseOrderformFields = [
     label: "رقم أمر الشراء",
     type: "select",
     required: true,
-    options: ["PO-1001", "PO-1002", "PO-1003"], // يفضل تجي من API
+    options: ["PO-1001", "PO-1002", "PO-1003"],
     sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
   },
   {
@@ -18,7 +18,7 @@ const ReceiptOfPurchaseOrderformFields = [
     label: "اسم المورد",
     type: "text",
     required: false,
-    disabled: true, // يظهر تلقائيًا بعد اختيار أمر الشراء
+    disabled: true,
     sx: { backgroundColor: "#e0e0e0", borderRadius: 2 },
   },
   {
@@ -47,7 +47,7 @@ const ReceiptOfPurchaseOrderformFields = [
   {
     name: "receivedItems",
     label: "الأصناف المستلمة",
-    type: "custom", // We'll inject the table via extraItems
+    type: "custom",
   },
   {
     name: "receiveNotes",
@@ -74,18 +74,8 @@ const ReceiptOfPurchaseOrderformFields = [
 ];
 
 export default function ReceiptOfPurchaseOrderForm({ open, onClose, onAddInvoice }) {
-  const [receivedItems, setReceivedItems] = useState([
-    { id: 1, name: "زيت محركات شل 30", requiredQty: 10, receivedQty: 0, unit: "لتر", unitPrice: 100, difference: 10 },
-    {
-      id: 2,
-      name: "Shell Engine Oil 5W-20",
-      requiredQty: 5,
-      receivedQty: 0,
-      unit: "لتر",
-      unitPrice: 100,
-      difference: 5,
-    },
-  ]);
+  const [receivedItems, setReceivedItems] = useState([]);
+
   const [isReceiptApproved, setIsReceiptApproved] = useState(false);
   const [approvedReceiptData, setApprovedReceiptData] = useState(null);
 
@@ -97,14 +87,35 @@ export default function ReceiptOfPurchaseOrderForm({ open, onClose, onAddInvoice
   const handleAddInvoice = () => {
     if (!isReceiptApproved) return;
     if (onAddInvoice) {
-      onAddInvoice({ ...approvedReceiptData, items: receivedItems }); // Pass items
+      onAddInvoice({ ...approvedReceiptData, items: receivedItems });
     }
   };
+
+  // أعمدة جدول الأصناف المستلمة
+  const receivedItemsColumns = [
+    { field: "name", headerName: "اسم المنتج", type: "text", required: true },
+    { field: "requiredQty", headerName: "الكمية المطلوبة", type: "number", required: true },
+    { field: "receivedQty", headerName: "الكمية المستلمة", type: "number", required: true },
+    { field: "unit", headerName: "الوحدة", type: "select", options: ["كرتون", "لتر", "علبة"] },
+    { field: "unitPrice", headerName: "سعر الوحدة", type: "number", required: true },
+    {
+      field: "total",
+      headerName: "الإجمالي",
+      type: "readonly",
+      formula: (row) => Number(row.unitPrice || 0) * Number(row.receivedQty || 0),
+    },
+    {
+      field: "difference",
+      headerName: "الفرق",
+      type: "readonly",
+      formula: (row) => Number(row.requiredQty || 0) - Number(row.receivedQty || 0),
+    },
+  ];
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" dir="rtl">
       <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30 }}>استلام أمر شراء جديد</DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ backgroundColor: "#fafafa", borderRadius: 2 }}>
         <DynamicForm
           fields={ReceiptOfPurchaseOrderformFields}
           onSubmit={handleFormSubmit}
@@ -112,11 +123,19 @@ export default function ReceiptOfPurchaseOrderForm({ open, onClose, onAddInvoice
             backgroundColor: "#fafafa",
             padding: 0,
             borderRadius: 8,
+            width: "100%",
           }}
           fieldWrapperStyle={{ marginBottom: 10 }}
           showdetailed={false}
           onCancel={onClose}
-          extraItems={<ReceivedItemsTable items={receivedItems} setItems={setReceivedItems} />}
+          extraItems={
+            <DynamicEditableTable
+              columns={receivedItemsColumns}
+              rows={receivedItems}
+              setRows={setReceivedItems}
+              addButtonLabel="إضافة صنف جديد"
+            />
+          }
           formButtons={[
             <Button
               key="save"
@@ -132,7 +151,7 @@ export default function ReceiptOfPurchaseOrderForm({ open, onClose, onAddInvoice
                 },
               }}
               type="submit"
-              disabled={isReceiptApproved} // Prevent double approval
+              disabled={isReceiptApproved}
             >
               حفظ
             </Button>,
@@ -159,7 +178,6 @@ export default function ReceiptOfPurchaseOrderForm({ open, onClose, onAddInvoice
             >
               إضافة فاتورة جديدة
             </Button>,
-
             <Button
               key="cancel"
               variant="contained"

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Table from "./Table";
 import Header from "../Header";
+import { Box, Button, Stack } from "@mui/material";
+import GoodFristTimeForm from "./GoodFristTimeForm";
 const columns = [
   { field: "id", headerName: "رقم العملية", width: 120 },
   { field: "warehouse", headerName: "المستودع", width: 160 },
@@ -62,6 +64,7 @@ export default function GoodFristTime() {
       <Header title="بضاعة اول المدة" btnTitle="اضافة بضاعة اول المدة جديدة" setOpen={setOpen} />
       {/* <Filter inputs={InventoryFilters} /> */}
       <Table rows={rows} columns={columns} />
+      <GoodFristTimeForm open={open} onClose={setOpen} />
     </Box>
   );
 }
