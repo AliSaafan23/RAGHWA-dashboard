@@ -3,11 +3,12 @@ import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import { COLORS } from "../../constants";
 
-export default function Table({ rows, columns }) {
+const Table = ({ rows, columns }) => {
   return (
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
         sx={{
+          width: "100%",
           "& .MuiDataGrid-cell": {
             display: "flex",
             alignItems: "center",
@@ -37,10 +38,12 @@ export default function Table({ rows, columns }) {
           },
         }}
         pageSizeOptions={[5]}
-        checkboxSelection
+        checkboxSelection={true}
         disableRowSelectionOnClick
         autoHeight={false}
       />
     </Box>
   );
-}
+};
+
+export default Table;
