@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Box, IconButton, Stack, Card, CardContent, Typography, Chip, Grid, Dialog, DialogTitle, DialogContent, DialogActions, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import { AddService } from '../components/Add Service/AddService';
-import Header from '../components/InventoryTransactionsComponents/Header';
+import Header from '../components/Header';
 import { DataGrid } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
