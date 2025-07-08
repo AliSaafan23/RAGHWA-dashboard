@@ -19,7 +19,7 @@ const ReceiptOfPurchaseOrderformFields = [
     type: "text",
     required: false,
     disabled: true,
-    sx: { backgroundColor: "#e0e0e0", borderRadius: 2 },
+    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
   },
   {
     name: "receiveDate",
@@ -113,7 +113,7 @@ export default function ReceiptOfPurchaseOrderForm({ open, onClose, onAddInvoice
   ];
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" dir="rtl">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg" dir="rtl">
       <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30 }}>استلام أمر شراء جديد</DialogTitle>
       <DialogContent sx={{ backgroundColor: "#fafafa", borderRadius: 2 }}>
         <DynamicForm
@@ -155,29 +155,30 @@ export default function ReceiptOfPurchaseOrderForm({ open, onClose, onAddInvoice
             >
               حفظ
             </Button>,
-            <Button
-              key="add-invoice"
-              variant="contained"
-              sx={{
-                backgroundColor: "success.main",
-                color: "#fff",
-                px: 5,
-                py: 1.5,
-                fontWeight: "bold",
-                border: "1px solid",
-                borderColor: "success.dark",
-                "&:hover": {
-                  backgroundColor: "#fff",
-                  color: "success.main",
-                  borderColor: "success.main",
-                },
-              }}
-              onClick={handleAddInvoice}
-              type="button"
-              disabled={!isReceiptApproved}
-            >
-              إضافة فاتورة جديدة
-            </Button>,
+            isReceiptApproved && (
+              <Button
+                key="add-invoice"
+                variant="contained"
+                sx={{
+                  backgroundColor: "success.main",
+                  color: "#fff",
+                  px: 5,
+                  py: 1.5,
+                  fontWeight: "bold",
+                  border: "1px solid",
+                  borderColor: "success.dark",
+                  "&:hover": {
+                    backgroundColor: "#fff",
+                    color: "success.main",
+                    borderColor: "success.main",
+                  },
+                }}
+                onClick={handleAddInvoice}
+                type="button"
+              >
+                إضافة فاتورة جديدة
+              </Button>
+            ),
             <Button
               key="cancel"
               variant="contained"

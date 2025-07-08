@@ -129,7 +129,9 @@ export default function PurchaseInvoiceForm({ open, onClose, initialData }) {
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" dir="rtl">
-      <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30 }}>اضافة فاتورة شراء جديدة</DialogTitle>
+      <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30, marginBottom: 2 }}>
+        اضافة فاتورة شراء جديدة
+      </DialogTitle>
       <DialogContent>
         <DynamicForm
           fields={InvoiceFormFields}
@@ -139,6 +141,7 @@ export default function PurchaseInvoiceForm({ open, onClose, initialData }) {
             backgroundColor: "#fafafa",
             padding: 0,
             borderRadius: 8,
+            marginTop: 5,
           }}
           fieldWrapperStyle={{ marginBottom: 10 }}
           showdetailed={false}
@@ -191,6 +194,7 @@ export default function PurchaseInvoiceForm({ open, onClose, initialData }) {
               الغاء
             </Button>,
           ]}
+          fieldsPerRow={3}
         />
       </DialogContent>
     </Dialog>

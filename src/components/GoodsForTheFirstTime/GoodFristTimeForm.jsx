@@ -48,7 +48,7 @@ export default function GoodFristTimeForm({ open, onClose, initialData }) {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" dir="rtl">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg" dir="rtl">
       <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30 }}>اضافة بضاعة اول جديدة</DialogTitle>
       <DialogContent sx={{ backgroundColor: "#fafafa", borderRadius: 2 }}>
         <DynamicForm
@@ -70,7 +70,7 @@ export default function GoodFristTimeForm({ open, onClose, initialData }) {
               rows={items}
               setRows={setItems}
               addButtonLabel="إضافة صنف"
-              sx={{ width: "860px" }}
+              sx={{ width: "1150px" }}
             />
           }
           formButtons={[
@@ -112,6 +112,7 @@ export default function GoodFristTimeForm({ open, onClose, initialData }) {
               الغاء
             </Button>,
           ]}
+          fieldsPerRow={1}
         />
       </DialogContent>
     </Dialog>

@@ -29,6 +29,7 @@ const DynamicForm = ({
   fieldWrapperStyle,
   formButtons = null,
   extraItems,
+  fieldsPerRow = 2,
 }) => {
   const [formData, setFormData] = useState({});
   const [attachments, setAttachments] = useState([]);
@@ -71,31 +72,109 @@ const DynamicForm = ({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{ display: "grid", gap: 10, ...formStyle }}
-    >
-      {fields?.map((field) => {
-        const {
-          name,
-          label,
-          type,
-          required,
-          options,
-          sx,
-          variant = "outlined",
-          fullWidth = true,
-        } = field;
+    <form onSubmit={handleSubmit} style={{ display: "grid", gap: 10, ...formStyle }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: `repeat(${fieldsPerRow}, 1fr)`,
+          gap: 2,
+          mb: 2,
+        }}
+      >
+        {fields?.map((field) => {
+          const { name, label, type, required, options, sx, variant = "outlined" } = field;
 
-        // Special case for "الملحقات المضافة"
-        if (label === "الملحقات المضافة") {
+          if (label === "الملحقات المضافة") {
+            return null;
+          }
+
+          if (type === "select") {
+            return (
+              <FormControl required={required} key={name} sx={{ ...sx, minWidth: 120 }} style={fieldWrapperStyle}>
+                <InputLabel>{label}</InputLabel>
+                <Select
+                  value={formData[name] || ""}
+                  label={label}
+                  onChange={(e) => handleChange(name, e.target.value)}
+                  sx={{
+                    textAlign: "right",
+                    "& .MuiSelect-select": {
+                      textAlign: "right",
+                    },
+                    "& .MuiInputLabel-root": {
+                      right: 30,
+                      left: "auto",
+                      transformOrigin: "top right",
+                    },
+                    "& .MuiInputLabel-shrink": {
+                      transform: "translate(0, -6px) scale(0.75)",
+                    },
+                    ...sx,
+                  }}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: {
+                        textAlign: "right",
+                        "& .MuiMenuItem-root": {
+                          justifyContent: "flex-end",
+                        },
+                      },
+                    },
+                  }}
+                >
+                  {options.map((opt) => (
+                    <MenuItem key={opt} value={opt}>
+                      {opt}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            );
+          }
+
+          if (type === "checkbox") {
+            return (
+              <FormControlLabel
+                key={name}
+                control={
+                  <Checkbox checked={formData[name] || false} onChange={(e) => handleChange(name, e.target.checked)} />
+                }
+                label={label}
+                labelPlacement="start"
+                sx={{
+                  justifyContent: "flex-end",
+                  marginRight: 0,
+                  ...sx,
+                }}
+                style={fieldWrapperStyle}
+              />
+            );
+          }
+
+          return (
+            <TextField
+              key={name}
+              label={label}
+              type={type}
+              required={required}
+              variant={variant}
+              value={formData[name] || ""}
+              onChange={(e) => handleChange(name, e.target.value)}
+              sx={{ ...sx, minWidth: 120 }}
+              style={fieldWrapperStyle}
+              {...(type === "date" ? { InputLabelProps: { shrink: true }, placeholder: "" } : {})}
+            />
+          );
+        })}
+      </Box>
+      {fields?.map((field) => {
+        if (field.label === "الملحقات المضافة") {
+          const { name, label, sx, variant = "outlined" } = field;
           return (
             <Box key={name} sx={{ ...sx }} style={fieldWrapperStyle}>
-              <Typography variant="h6" sx={{ mb: 2}}>
+              <Typography variant="h6" sx={{ mb: 2 }}>
                 {label}
               </Typography>
-              
-              {/* Input fields for category and value */}
               <Box sx={{ display: "flex", gap: 2, mb: 2, alignItems: "center" }}>
                 <TextField
                   label="الصنف"
@@ -120,8 +199,6 @@ const DynamicForm = ({
                   إضافة
                 </Button>
               </Box>
-
-              {/* Table to display attachments */}
               {attachments.length > 0 && (
                 <TableContainer component={Paper} sx={{ mt: 2 }}>
                   <Table>
@@ -138,10 +215,7 @@ const DynamicForm = ({
                           <TableCell align="right">{attachment.category}</TableCell>
                           <TableCell align="right">{attachment.value}</TableCell>
                           <TableCell align="center">
-                            <IconButton
-                              color="error"
-                              onClick={() => handleRemoveAttachment(attachment.id)}
-                            >
+                            <IconButton color="error" onClick={() => handleRemoveAttachment(attachment.id)}>
                               <DeleteIcon />
                             </IconButton>
                           </TableCell>
@@ -154,101 +228,10 @@ const DynamicForm = ({
             </Box>
           );
         }
-
-        if (type === "select") {
-          return (
-            <FormControl
-              fullWidth={fullWidth}
-              required={required}
-              key={name}
-              sx={sx}
-              style={fieldWrapperStyle}
-            >
-              <InputLabel>{label}</InputLabel>
-              <Select
-                value={formData[name] || ""}
-                label={label}
-                onChange={(e) => handleChange(name, e.target.value)}
-                sx={{
-                  textAlign: "right",
-                  "& .MuiSelect-select": {
-                    textAlign: "right",
-                  },
-                  "& .MuiInputLabel-root": {
-                    right: 30,
-                    left: "auto",
-                    transformOrigin: "top right",
-                  },
-                  "& .MuiInputLabel-shrink": {
-                    transform: "translate(0, -6px) scale(0.75)",
-                  },
-                  ...sx, // Merge with user-provided sx
-                }}
-                MenuProps={{
-                  PaperProps: {
-                    sx: {
-                      textAlign: "right",
-                      "& .MuiMenuItem-root": {
-                        justifyContent: "flex-end",
-                      },
-                    },
-                  },
-                }}
-              >
-                {options.map((opt) => (
-                  <MenuItem key={opt} value={opt}>
-                    {opt}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          );
-        }
-
-        if (type === "checkbox") {
-          return (
-            <FormControlLabel
-              key={name}
-              control={
-                <Checkbox
-                  checked={formData[name] || false}
-                  onChange={(e) => handleChange(name, e.target.checked)}
-                />
-              }
-              label={label}
-              labelPlacement="start" // Place label on the right for RTL
-              sx={{
-                justifyContent: "flex-end", // Align checkbox and label to the right
-                marginRight: 0, // Adjust margin for RTL
-                ...sx,
-              }}
-              style={fieldWrapperStyle}
-            />
-          );
-        }
-
-        return (
-          <TextField
-            key={name}
-            label={label}
-            type={type}
-            required={required}
-            fullWidth={fullWidth}
-            variant={variant}
-            value={formData[name] || ""}
-            onChange={(e) => handleChange(name, e.target.value)}
-            sx={sx}
-            style={fieldWrapperStyle}
-            {...(type === "date"
-              ? { InputLabelProps: { shrink: true }, placeholder: "" }
-              : {})}
-          />
-        );
+        return null;
       })}
       {extraItems}
-      <Box sx={{ display: "flex", justifyContent: "start", gap: 2 }}>
-        {formButtons}
-      </Box>
+      <Box sx={{ display: "flex", justifyContent: "start", gap: 2 }}>{formButtons}</Box>
     </form>
   );
 };
