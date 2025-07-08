@@ -89,6 +89,7 @@ const SupplierCreationForm = ({ open, onClose, onSubmit, initialData = null }) =
               sx={{ mt: 2 }}
             />
           }
+          fieldsPerRow={3}
         />
       </DialogContent>
     </Dialog>
