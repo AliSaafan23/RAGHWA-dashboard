@@ -166,7 +166,7 @@ export const AddService = ({ open, onClose, onSubmit }) => {
   );
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm" dir="rtl">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" dir="rtl">
       <DialogTitle sx={{ color: COLORS.PRIMARY, fontWeight: "bold", fontSize: 24 }}>إضافة خدمة</DialogTitle>
       <DialogContent>
         <DynamicForm

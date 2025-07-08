@@ -10,10 +10,10 @@ import StorageIcon from '@mui/icons-material/Storage';
 import BusinessIcon from '@mui/icons-material/Business';
 import PersonIcon from '@mui/icons-material/Person';
 import InventoryIcon from '@mui/icons-material/Inventory';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
 import DynamicForm from '../../custom/DynamicForm';
 import Header from '../Header';
+import ExportDataButton from '../common/ExportDataButton';
+import ImportDataButton from '../common/ImportDataButton';
 import { COLORS } from '../../constants';
 
 
@@ -158,12 +158,12 @@ const StorageController = () => {
         setSelectedStorage(storage);
     };
 
-    const handleExportData = () => {
-        // Convert data to CSV format
-        const headers = ['اسم المستودع', 'النوع', 'الفرع', 'عدد الأصناف', 'المسؤول', 'الحالة'];
-        const csvContent = [
-            headers.join(','),
-            ...storages.map(storage => [
+    // Custom mapping function for export
+    const mapStorageDataToCSV = (data, headers) => {
+        const csvHeaders = ['اسم المستودع', 'النوع', 'الفرع', 'عدد الأصناف', 'المسؤول', 'الحالة'];
+        return [
+            csvHeaders.join(','),
+            ...data.map(storage => [
                 storage.storageName,
                 storage.storageType,
                 storage.branch,
@@ -172,44 +172,52 @@ const StorageController = () => {
                 storage.status
             ].join(','))
         ].join('\n');
-
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
-        link.setAttribute('download', 'storage_data.csv');
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
     };
 
-    const handleFileUpload = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const text = e.target.result;
-                const rows = text.split('\n');
-                const headers = rows[0].split(',');
-                
-                const newStorages = rows.slice(1).filter(row => row.trim()).map((row, index) => {
-                    const values = row.split(',');
-                    return {
-                        id: storages.length + index + 1,
-                        storageName: values[0] || '',
-                        storageType: values[1] || '',
-                        branch: values[2] || '',
-                        itemsCount: parseInt(values[3]) || 0,
-                        manager: values[4] || '',
-                        status: values[5] || 'نشط'
-                    };
-                });
-
-                setStorages(prevStorages => [...prevStorages, ...newStorages]);
+    // Custom parsing function for import
+    const parseStorageCSV = (text) => {
+        const rows = text.split('\n');
+        const headers = rows[0].split(',');
+        
+        return rows.slice(1).filter(row => row.trim()).map((row, index) => {
+            const values = row.split(',');
+            return {
+                id: storages.length + index + 1,
+                storageName: values[0] || '',
+                storageType: values[1] || '',
+                branch: values[2] || '',
+                itemsCount: parseInt(values[3]) || 0,
+                manager: values[4] || '',
+                status: values[5] || 'نشط'
             };
-            reader.readAsText(file);
-        }
+        });
+    };
+
+    // Handle imported data
+    const handleDataImported = (importedData) => {
+        setStorages(prevStorages => [...prevStorages, ...importedData]);
+    };
+
+    // Validation function for imported data
+    const validateStorageData = (data) => {
+        const errors = [];
+        
+        data.forEach((item, index) => {
+            if (!item.storageName || item.storageName.trim() === '') {
+                errors.push(`الصف ${index + 1}: اسم المستودع مطلوب`);
+            }
+            if (!item.storageType || item.storageType.trim() === '') {
+                errors.push(`الصف ${index + 1}: نوع المستودع مطلوب`);
+            }
+            if (!item.branch || item.branch.trim() === '') {
+                errors.push(`الصف ${index + 1}: الفرع مطلوب`);
+            }
+        });
+
+        return {
+            isValid: errors.length === 0,
+            errors
+        };
     };
 
     const formButtons = (
@@ -333,28 +341,16 @@ const StorageController = () => {
             
             
             <Box sx={{ display: 'flex', gap: 2, mb: 1 }}>
-                <Button 
-                    variant="outlined" 
-                    color="success" 
-                    startIcon={<FileDownloadIcon />}
-                    onClick={handleExportData}
-                >
-                    تصدير البيانات
-                </Button>
-                <Button 
-                    variant="outlined" 
-                    color="info" 
-                    component="label"
-                    startIcon={<FileUploadIcon />}
-                >
-                    استيراد بيانات
-                    <input 
-                        type="file" 
-                        hidden 
-                        accept=".csv,.xlsx,.xls"
-                        onChange={handleFileUpload}
-                    />
-                </Button>
+                <ExportDataButton 
+                    data={storages}
+                    filename="storage_data.csv"
+                    mapDataToCSV={mapStorageDataToCSV}
+                />
+                <ImportDataButton 
+                    onDataImported={handleDataImported}
+                    parseCSV={parseStorageCSV}
+                    validateData={validateStorageData}
+                />
             </Box>
             
             <Box sx={{ height: 400, width: '100%' }}>
