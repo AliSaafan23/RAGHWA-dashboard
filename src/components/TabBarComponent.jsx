@@ -13,7 +13,7 @@ export default function TabBarComponent({tabs,tabPanels}) {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <TabList onChange={handleChange}>
         {  tabs.map((tab) => (
-            <Tab label={tab.label} value={tab.value} />))}
+            <Tab label={tab.label} value={tab.value} key={tab.value} />))}
         </TabList>
       </Box>
      {tabPanels.map((panel) => (

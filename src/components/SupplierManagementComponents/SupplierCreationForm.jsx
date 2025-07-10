@@ -1,22 +1,10 @@
 import React, { useState, useEffect } from "react";
-import DynamicForm from "../../../custom/DynamicForm";
+import DynamicForm from "../../custom/DynamicForm";
 import { fields } from "./SupplierFields";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Button,
-  FormControlLabel,
-  Switch,
-} from "@mui/material";
-import { COLORS } from "../../../constants";
+import { Dialog, DialogTitle, DialogContent, Button, FormControlLabel, Switch } from "@mui/material";
+import { COLORS } from "../../constants";
 
-const SupplierCreationForm = ({
-  open,
-  onClose,
-  onSubmit,
-  initialData = null,
-}) => {
+const SupplierCreationForm = ({ open, onClose, onSubmit, initialData = null }) => {
   const [detailed, setDetailed] = useState(false);
   const [formData, setFormData] = useState({});
 
@@ -87,7 +75,7 @@ const SupplierCreationForm = ({
                   color: "#fff",
                 },
               }}
-              onClick={onClose}
+              onClick={() => onClose(false)}
               type="button"
             >
               الغاء
@@ -96,17 +84,12 @@ const SupplierCreationForm = ({
           initialValues={formData}
           extraItems={
             <FormControlLabel
-              control={
-                <Switch
-                  checked={detailed}
-                  onChange={(e) => setDetailed(e.target.checked)}
-                  color="primary"
-                />
-              }
+              control={<Switch checked={detailed} onChange={(e) => setDetailed(e.target.checked)} color="primary" />}
               label="تفعيل"
               sx={{ mt: 2 }}
             />
           }
+          fieldsPerRow={3}
         />
       </DialogContent>
     </Dialog>
