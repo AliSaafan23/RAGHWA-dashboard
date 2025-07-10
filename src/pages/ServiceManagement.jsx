@@ -215,7 +215,7 @@ const ServiceManagement = () => {
           rows={services}
           columns={columns}
           sx={{
-            width: "900px",
+            width: "100%",
             maxWidth: "100%",
             overflow: "hidden",
             "& .MuiDataGrid-root": {

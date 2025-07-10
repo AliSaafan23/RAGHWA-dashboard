@@ -5,10 +5,7 @@ import PurchaseOrders from "../components/PurchaseOrdersComponents/PurchaseOrder
 import TabBarComponent from "../components/TabBarComponent";
 
 export default function Purchase() {
-  const tabs = [
-    { label: " امر الشراء الرئيسية ", value: "1" },
-    { label: "  استلام مشتريات ", value: "2" },
-  ];
+  const tabs = [{ label: " امر الشراء الرئيسية ", value: "1" }];
   const tabPanels = [{ value: "1", component: <PurchaseOrders /> }];
   return (
     <Box>

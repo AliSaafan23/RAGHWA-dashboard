@@ -73,7 +73,7 @@ const columns = [
 ];
 const Table = () => {
   return (
-    <Box sx={{ height: 400, width: "880px" }}>
+    <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
         sx={{
           width: "100%",
