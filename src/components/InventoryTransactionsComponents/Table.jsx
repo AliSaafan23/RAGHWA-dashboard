@@ -5,28 +5,29 @@ import { COLORS } from "../../constants";
 
 export default function Table({ rows, columns }) {
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
-        sx={{
-          "& .MuiDataGrid-cell": {
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          },
-          "& .MuiDataGrid-columnHeader": {
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          },
-          "& .MuiDataGrid-columnHeaderTitle": {
-            fontWeight: "bold",
-            color: COLORS.PRIMARY,
-          },
-
-          "& .MuiTablePagination-displayedRows": {
-            direction: "rtl",
-          },
-        }}
+      sx={{   
+         height: 400, width: "880px",      
+        '& .MuiDataGrid-cell': {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        '& .MuiDataGrid-columnHeader': {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        '& .MuiDataGrid-columnHeaderTitle': {
+          fontWeight: 'bold',
+          color: COLORS.PRIMARY,
+        },
+        
+          '& .MuiTablePagination-displayedRows': {
+              direction: 'rtl',
+            }
+      }}
+      
         rows={rows}
         columns={columns}
         initialState={{
@@ -41,6 +42,5 @@ export default function Table({ rows, columns }) {
         disableRowSelectionOnClick
         autoHeight={false}
       />
-    </Box>
   );
 }
