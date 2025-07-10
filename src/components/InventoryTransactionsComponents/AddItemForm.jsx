@@ -40,13 +40,13 @@ const itemFormFields = [
     sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
   },
 ]
-export default function AddItemForm({open,onClose}) {
-      const handleAddItem = (item) => {
-        console.log('added item')
-        onClose()
+export default function AddItemForm({open,setOpen}) {
+      const handleAddItem = (data) => {
+        console.log('added item',data)
+        setOpen(false);
   };
   return (
-        <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm" dir="rtl">
+        <Dialog open={open} onClose={()=>setOpen(false)} fullWidth maxWidth="sm" dir="rtl">
           <DialogTitle sx={{ color: COLORS.PRIMARY, fontWeight: "bold", fontSize: 24 }}>
             إضافة صنف
           </DialogTitle>
@@ -56,7 +56,7 @@ export default function AddItemForm({open,onClose}) {
               onSubmit={handleAddItem}
               formStyle={{ backgroundColor: "#fafafa", borderRadius: 8, p: 2 }}
               fieldWrapperStyle={{ marginBottom: 10 }}
-              onCancel={onClose}
+              onCancel={()=>setOpen(false)}
               formButtons={[
                 <Button
                   key="add"
@@ -69,7 +69,7 @@ export default function AddItemForm({open,onClose}) {
                 <Button
                   key="cancel"
                   variant="outlined"
-                  onClick={() => onClose(false)}
+                  onClick={()=>setOpen(false)}
                   sx={{ fontWeight: "bold", px: 4, py: 1.5 }}
                 >
                   إلغاء
