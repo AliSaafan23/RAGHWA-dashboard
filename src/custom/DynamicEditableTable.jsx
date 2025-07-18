@@ -12,6 +12,7 @@ import {
   IconButton,
   Button,
   Box,
+  Autocomplete,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
@@ -22,10 +23,9 @@ export default function DynamicEditableTable({
   setRows,
   addButtonLabel = "إضافة",
   sx,
-  readOnly = false, // دعم خاصية العرض فقط
+  readOnly = false,
 }) {
   const buildInitialRow = () => columns.reduce((acc, col) => ({ ...acc, [col.field]: "" }), {});
-
   const [newRow, setNewRow] = useState(buildInitialRow());
 
   const handleNewRowChange = (e) => {
@@ -73,7 +73,7 @@ export default function DynamicEditableTable({
               <TableRow key={row.id || idx}>
                 {columns.map((col) => (
                   <TableCell key={col.field} align="right">
-                    {col.type === "select"
+                    {["select", "autocomplete"].includes(col.type)
                       ? row[col.field]
                       : col.type === "readonly" && typeof col.formula === "function"
                       ? col.formula(row)
@@ -94,7 +94,21 @@ export default function DynamicEditableTable({
               <TableRow>
                 {columns.map((col) => (
                   <TableCell key={col.field} align="right">
-                    {col.type === "select" ? (
+                    {col.type === "autocomplete" ? (
+                      <Autocomplete
+                        options={col.options || []}
+                        value={newRow[col.field] || ""}
+                        onChange={(e, newValue) =>
+                          handleNewRowChange({
+                            target: { name: col.field, value: newValue },
+                          })
+                        }
+                        renderInput={(params) => (
+                          <TextField {...params} size="small" placeholder="اختر" sx={{ width: 120 }} />
+                        )}
+                        size="small"
+                      />
+                    ) : col.type === "select" ? (
                       <Select
                         name={col.field}
                         value={newRow[col.field]}

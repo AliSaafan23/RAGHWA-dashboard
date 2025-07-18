@@ -45,11 +45,6 @@ const ReceiptOfPurchaseOrderformFields = [
     sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
   },
   {
-    name: "receivedItems",
-    label: "الأصناف المستلمة",
-    type: "custom",
-  },
-  {
     name: "receiveNotes",
     label: "ملاحظات على الاستلام",
     type: "textarea",
