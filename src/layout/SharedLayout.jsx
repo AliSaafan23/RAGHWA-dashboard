@@ -14,7 +14,7 @@ export const SharedLayout = () => {
           background: "linear-gradient(135deg, #e2e5e9 0%, #e4e8f0 100%)",
           pt: 2,
           pl: 3,
-          px: 3
+          px: 3,
         }}
         gap={5}
         display={"flex"}

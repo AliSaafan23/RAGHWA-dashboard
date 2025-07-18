@@ -19,6 +19,7 @@ import {
   Paper,
   IconButton,
   Typography,
+  Autocomplete,
 } from "@mui/material";
 import { Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
 
@@ -30,8 +31,17 @@ const DynamicForm = ({
   formButtons = null,
   extraItems,
   fieldsPerRow = 2,
+  // Props إضافية لدعم رفع الحالة
+  formData: externalFormData,
+  setFormData: externalSetFormData,
 }) => {
-  const [formData, setFormData] = useState({});
+  // الحالة الداخلية تُستخدم فقط لو مفيش حالة مرفوعة (props)
+  const [internalFormData, setInternalFormData] = useState({});
+
+  // اختار الحالة المناسبة: مرفوعة أو داخلية
+  const formData = externalFormData ?? internalFormData;
+  const setFormData = externalSetFormData ?? setInternalFormData;
+
   const [attachments, setAttachments] = useState([]);
   const [attachmentInput, setAttachmentInput] = useState({
     category: "",
@@ -79,6 +89,7 @@ const DynamicForm = ({
           gridTemplateColumns: `repeat(${fieldsPerRow}, 1fr)`,
           gap: 2,
           mb: 2,
+          marginTop: 2,
         }}
       >
         {fields?.map((field) => {
@@ -88,25 +99,24 @@ const DynamicForm = ({
             return null;
           }
 
-
           if (type === "select" || type === "multiselect") {
             return (
               <FormControl required={required} key={name} sx={{ ...sx, minWidth: 120 }} style={fieldWrapperStyle}>
                 <InputLabel>{label}</InputLabel>
                 <Select
-                multiple={type === "multiselect"}
+                  multiple={type === "multiselect"}
                   value={formData[name] || (type === "multiselect" ? [] : "")}
                   label={label}
                   onChange={(e) =>
-                  handleChange(
-                    name,
-                    type === "multiselect"
-                      ? typeof e.target.value === "string"
-                        ? e.target.value.split(",")
+                    handleChange(
+                      name,
+                      type === "multiselect"
+                        ? typeof e.target.value === "string"
+                          ? e.target.value.split(",")
+                          : e.target.value
                         : e.target.value
-                      : e.target.value
-                  )
-                }
+                    )
+                  }
                   sx={{
                     textAlign: "right",
                     "& .MuiSelect-select": {
@@ -132,11 +142,11 @@ const DynamicForm = ({
                       },
                     },
                   }}
-                renderValue={
-                  type === "multiselect"
-                    ? (selected) => (Array.isArray(selected) ? selected.join(", ") : "")
-                    : undefined
-                }
+                  renderValue={
+                    type === "multiselect"
+                      ? (selected) => (Array.isArray(selected) ? selected.join(", ") : "")
+                      : undefined
+                  }
                 >
                   {options.map((opt) => (
                     <MenuItem key={opt} value={opt}>
@@ -167,6 +177,45 @@ const DynamicForm = ({
             );
           }
 
+          if (type === "switch") {
+            return (
+              <FormControlLabel
+                key={name}
+                control={
+                  <Switch checked={formData[name] || false} onChange={(e) => handleChange(name, e.target.checked)} />
+                }
+                label={label}
+                labelPlacement="start"
+                sx={{
+                  justifyContent: "flex-end",
+                  marginRight: 0,
+                  ...sx,
+                }}
+                style={fieldWrapperStyle}
+              />
+            );
+          }
+
+          if (type === "autocomplete") {
+            return (
+              <Autocomplete
+                key={name}
+                options={field.options || []}
+                getOptionLabel={field.getOptionLabel || ((option) => option.label || option)} // default
+                value={formData[name] || null}
+                onChange={(e, newValue) => handleChange(name, newValue)}
+                sx={{ ...sx, minWidth: 120 }}
+                renderInput={(params) => <TextField {...params} label={label} required={required} variant={variant} />}
+                isOptionEqualToValue={(option, value) => {
+                  // to avoid MUI warning if objects used as values
+                  return field.isOptionEqualToValue
+                    ? field.isOptionEqualToValue(option, value)
+                    : option?.value === value?.value || option === value;
+                }}
+              />
+            );
+          }
+
           return (
             <TextField
               key={name}
@@ -183,7 +232,7 @@ const DynamicForm = ({
           );
         })}
       </Box>
-      {fields?.map((field) => {
+      {/* {fields?.map((field) => {
         if (field.label === "الملحقات المضافة") {
           const { name, label, sx, variant = "outlined" } = field;
           return (
@@ -245,7 +294,7 @@ const DynamicForm = ({
           );
         }
         return null;
-      })}
+      })} */}
       {extraItems}
       <Box sx={{ display: "flex", justifyContent: "start", gap: 2 }}>{formButtons}</Box>
     </form>
