@@ -8,6 +8,7 @@ import ServiceManagement from "../pages/ServiceManagement";
 import StorageManagement from "../pages/StorageManagement";
 import { AddService } from "../components/Add Service/AddService";
 import SupplierCreationForm from "../components/SupplierManagementComponents/SupplierCreationForm";
+import RegistratoionOfItem from "../pages/RegistratoionOfItemManagement";
 export const Mainlayout = () => {
   return (
     <>
@@ -23,6 +24,7 @@ export const Mainlayout = () => {
             <Route path="/Warehouses/ادارة-الفروع" element={<StorageManagement />} />
             <Route path="/Warehouses/ادارة-المورديين" element={<SupplierCreationForm />} />
             <Route path="Warehouses/ادارة-الحركات-المخزنية" element={<Inventory />} />
+            <Route path="/Warehouses/ادارة-الاصناف" element={<RegistratoionOfItem />} />
           </Route>
         </Routes>
       </BrowserRouter>

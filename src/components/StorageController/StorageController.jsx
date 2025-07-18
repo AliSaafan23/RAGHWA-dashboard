@@ -33,17 +33,11 @@ import Header from "../Header";
 import ExportDataButton from "../common/ExportDataButton";
 import ImportDataButton from "../common/ImportDataButton";
 import { COLORS } from "../../constants";
-
-/*************  ✨ Windsurf Command ⭐  *************/
-/**
- * StorageController is a React component for managing storage data.
- * It provides functionalities for viewing, adding, editing, and deleting storage entries.
- * The component includes features for importing and exporting storage data in CSV format.
- * It also handles data validation, and displays storage details in a data grid with options
- * to view details, edit or delete entries, and manage storage status.
- */
-
-/*******  4fdd87d4-61ce-4535-a8b3-a762f5dc6e7a  *******/
+const branchesNames = [
+  { label: "الفرع الرئيسي", value: "main" },
+  { label: "فرع الشرق", value: "east" },
+  { label: "فرع الغرب", value: "west" },
+];
 const StorageController = () => {
   const [open, setOpen] = useState(false);
   const [selectedStorage, setSelectedStorage] = useState(null);
@@ -54,42 +48,54 @@ const StorageController = () => {
   // Storage form fields
   const storageFields = [
     {
-      name: "storage_name",
+      name: "name", // بدل "storage_name"
       label: "اسم المستودع",
       type: "text",
       sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
     },
     {
-      name: "storage_type",
-      label: "النوع",
-      type: "select",
-      options: ["رئيسي", "فرعي", "مخزن مواد", "مخزن زيوت"],
+      name: "symbol", // بدل "storage_type"
+      label: "رمز المستودع",
+      type: "text", // رمز مش نوع.. من نوع string
       sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
     },
     {
-      name: "branch",
+      name: "branchId",
       label: "الفرع",
-      type: "select",
-      options: ["الفرع الرئيسي", "فرع الشرق", "فرع الغرب", "فرع الشمال"],
+      type: "autocomplete",
+      options: branchesNames, // ممكن يكون array of strings أو array of objects
+      getOptionLabel: (option) => option.label, // لو object
+      isOptionEqualToValue: (option, value) => option.label === value.label,
       sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
     },
     {
-      name: "items_count",
-      label: "عدد الأصناف",
-      type: "number",
-      sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-    },
-    {
-      name: "manager",
-      label: "المسؤول",
+      name: "address", // بدل "items_count"
+      label: "العنوان",
       type: "text",
       sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
     },
     {
-      name: "status",
+      name: "email", // بدل "manager"
+      label: "البريد الإلكتروني",
+      type: "email",
+      sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
+    },
+    {
+      name: "phoneNumber", // لو حبيت تضيفه
+      label: "رقم الهاتف",
+      type: "text",
+      sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
+    },
+    {
+      name: "logo",
+      label: "اللوجو (رابط)",
+      type: "file",
+      sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
+    },
+    {
+      name: "isActive", // بدل "status"
       label: "الحالة",
-      type: "select",
-      options: ["نشط", "مغلق"],
+      type: "switch", // أو checkbox حسب التصميم
       sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
     },
   ];
@@ -567,7 +573,7 @@ const StorageController = () => {
       </Dialog>
 
       {/* Add Storage Dialog */}
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm" dir="rtl">
+      <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" dir="rtl">
         <DialogTitle sx={{ color: COLORS.PRIMARY, fontWeight: "bold", fontSize: 24 }}>إضافة مستودع جديد</DialogTitle>
         <DialogContent>
           <DynamicForm

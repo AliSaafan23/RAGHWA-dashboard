@@ -3,18 +3,21 @@ import CategoryController from "../components/CategoryController/CategoryControl
 import StorageController from "../components/StorageController/StorageController";
 import TabBarComponent from "../components/TabBarComponent";
 import GoodFristTime from "../components/GoodsForTheFirstTime/GoodFristTime";
+import Branches from "../components/BranchesController/Branches";
 
 const StorageManagement = () => {
   const tabs = [
-    { label: "المستودعات", value: "1" },
-    { label: "الأصناف", value: "2" },
-    { label: "رصيد اول المدة", value: "3" },
+    { label: "الفروع", value: "1" },
+    { label: "المستودعات", value: "2" },
+    { label: "الأصناف", value: "3" },
+    { label: "رصيد اول المدة", value: "4" },
   ];
 
   const tabPanels = [
-    { value: "1", component: <StorageController /> },
-    { value: "2", component: <CategoryController /> },
-    { value: "3", component: <GoodFristTime /> },
+    { value: "1", component: <Branches /> },
+    { value: "2", component: <StorageController /> },
+    { value: "3", component: <CategoryController /> },
+    { value: "4", component: <GoodFristTime /> },
   ];
   return (
     <Box>

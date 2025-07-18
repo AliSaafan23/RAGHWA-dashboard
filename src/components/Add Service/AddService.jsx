@@ -2,13 +2,9 @@ import React, { useState } from "react";
 import DynamicForm from "../../custom/DynamicForm";
 import { COLORS } from "../../constants";
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
-
-/* eslint-disable */
-/* const fieldsNames = ["كود الخدمة", "اسم الخدمة","نوع الخدمة","الفئة الشجرية" , 
-                 "وصف الخدمة","سعر الخدمة","مدة الخدمة","سعر الخدمة","سعر الخدمة بعد الخصم",
-                 "السبارة المستهدفة","وحدة التنفيذ","صورة رمزية","الملحقات المضافة","ملاحظات إدارية","تفعيل الخدمة",
-            ] 
-*/
+import DynamicEditableTable from "../../custom/DynamicEditableTable";
+const topitemCode = ["item1", "item2", "item3"];
+const topitemName = ["Item One", "Item Two", "Item Three"];
 const fields = [
   {
     name: "service Code",
@@ -62,22 +58,8 @@ const fields = [
     sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
   },
   {
-    name: "service Price After Discount",
-    label: "سعر الخدمة بعد الخصم",
-    type: "text",
-    required: false,
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-  {
     name: "service Area",
     label: "السبارة المستهدفة",
-    type: "text",
-    required: false,
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-  {
-    name: "service Unit",
-    label: "وحدة التنفيذ",
     type: "text",
     required: false,
     sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
@@ -86,13 +68,6 @@ const fields = [
     name: "service Image",
     label: "صورة رمزية",
     type: "file",
-    required: false,
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-  {
-    name: "service Attachments",
-    label: "الملحقات المضافة",
-    type: "text",
     required: false,
     sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
   },
@@ -106,14 +81,29 @@ const fields = [
   {
     name: "service Status",
     label: "تفعيل الخدمة",
-    type: "text",
+    type: "switch",
     required: false,
     sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
   },
 ];
+const itemColumns = [
+  { field: "itemCode", headerName: "كود الصنف", type: "autocomplete", required: true, options: topitemCode },
+  { field: "itemName", headerName: "اسم الصنف", type: "autocomplete", required: true, options: topitemName },
+  { field: "unit", headerName: "الوحدة", type: "readonly", formula: (row) => row.mainUnit || "لتر" },
+  { field: "quantity", headerName: "الكمية", type: "number", required: true },
+  { field: "unitCost", headerName: "تكلفة الوحدة", type: "number", required: true },
+  {
+    field: "total",
+    headerName: "الإجمالي",
+    type: "readonly",
+    formula: (row) => Number(row.unitCost || 0) * Number(row.quantity || 0),
+  },
+  { field: "notes", headerName: "ملاحظات", type: "text" },
+];
 
 export const AddService = ({ open, onClose, onSubmit }) => {
   const [detailed, setDetailed] = useState(false);
+  const [items, setItems] = useState([]);
 
   const handleFormSubmit = (data) => {
     if (onSubmit) {
@@ -124,50 +114,9 @@ export const AddService = ({ open, onClose, onSubmit }) => {
     onClose();
   };
 
-  const formButtons = (
-    <>
-      <Button
-        type="submit"
-        sx={{
-          backgroundColor: "#1976d2",
-          color: "#fff",
-          px: 5,
-          py: 1.5,
-          fontWeight: "bold",
-          width: "50%",
-          "&:hover": {
-            backgroundColor: "#fff",
-            color: "#1976d2",
-          },
-        }}
-      >
-        حفظ
-      </Button>
-      <Button
-        type="button"
-        onClick={onClose}
-        sx={{
-          backgroundColor: "#ffffff",
-          color: "#1976d2",
-          px: 5,
-          py: 1.5,
-          fontWeight: "bold",
-          width: "50%",
-          border: "1px solid #1976d2",
-          "&:hover": {
-            backgroundColor: "#1976d2",
-            color: "#fff",
-          },
-        }}
-      >
-        إلغاء
-      </Button>
-    </>
-  );
-
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" dir="rtl">
-      <DialogTitle sx={{ color: COLORS.PRIMARY, fontWeight: "bold", fontSize: 24 }}>إضافة خدمة</DialogTitle>
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg" dir="rtl">
+      <DialogTitle sx={{ color: COLORS.PRIMARY, fontWeight: "bold", fontSize: 24 }}>انشاء خدمة</DialogTitle>
       <DialogContent>
         <DynamicForm
           fields={fields}
@@ -182,6 +131,7 @@ export const AddService = ({ open, onClose, onSubmit }) => {
           detailed={detailed}
           setDetailed={setDetailed}
           onCancel={onClose}
+          extraItems={[<DynamicEditableTable columns={itemColumns} rows={items} setRows={setItems} />]}
           formButtons={[
             <Button
               key="save"

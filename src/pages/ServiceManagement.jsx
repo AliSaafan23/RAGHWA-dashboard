@@ -208,7 +208,7 @@ const ServiceManagement = () => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <Header title="ادارة الخدمات" btnTitle="إضافة خدمة" setOpen={setOpen} />
+      <Header title="ادارة الخدمات" btnTitle="انشاء خدمة" setOpen={setOpen} />
 
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
