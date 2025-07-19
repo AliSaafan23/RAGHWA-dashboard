@@ -8,6 +8,7 @@ import BranchesForm from "./BranchesForm";
 import Header from "../Header";
 import ExportDataButton from "../common/ExportDataButton";
 import ImportDataButton from "../common/ImportDataButton";
+import { useGetAllBranchesQuery } from "../../redux/Slices/branches";
 
 const columns = [
   { field: "id", headerName: "رقم الفرع", width: 80 },
@@ -69,43 +70,10 @@ const columns = [
     ),
   },
 ];
-const rows = [
-  {
-    id: 1,
-    name: "فرع القاهرة",
-    icon: "https://example.com/icons/cairo.png",
-    address: "شارع التحرير، القاهرة",
-    phoneNumber: "01001234567",
-    email: "cairo@company.com",
-    zone: "القاهرة",
-    isActive: true,
-    companyId: 101,
-  },
-  {
-    id: 2,
-    name: "فرع الإسكندرية",
-    icon: "https://example.com/icons/alex.png",
-    address: "شارع الجيش، الإسكندرية",
-    phoneNumber: "01234567890",
-    email: "alex@company.com",
-    zone: "الإسكندرية",
-    isActive: false,
-    companyId: 101,
-  },
-  {
-    id: 3,
-    name: "فرع الجيزة",
-    icon: "https://example.com/icons/giza.png",
-    address: "شارع الهرم، الجيزة",
-    phoneNumber: "01112345678",
-    email: "giza@company.com",
-    zone: "الجيزة",
-    isActive: true,
-    companyId: 102,
-  },
-];
 
 export default function Branches() {
+    const { data: branches, isLoading: isBranchesLoading, error: branchesError } = useGetAllBranchesQuery();
+  
   const [open, setOpen] = useState(false);
   const mapGoodsDataToCSV = (data, headers) => {
     return [
@@ -166,7 +134,7 @@ export default function Branches() {
       {/* Export/Import Buttons */}
       <Box sx={{ display: "flex", gap: 2, mb: 1 }}>
         <ExportDataButton
-          data={rows}
+          data={branches?.data}
           filename="goods_first_time_data.csv"
           mapDataToCSV={mapGoodsDataToCSV}
           buttonText="تصدير بيانات"
@@ -180,7 +148,7 @@ export default function Branches() {
       </Box>
 
       {/* <Filter inputs={InventoryFilters} /> */}
-      <Table rows={rows} columns={columns} />
+      <Table rows={branches?.data} columns={columns} />
       <BranchesForm open={open} onClose={setOpen} />
     </Box>
   );

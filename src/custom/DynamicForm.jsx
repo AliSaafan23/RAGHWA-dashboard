@@ -10,18 +10,8 @@ import {
   Button,
   Switch,
   Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  IconButton,
-  Typography,
   Autocomplete,
 } from "@mui/material";
-import { Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
 
 const DynamicForm = ({
   fields,
@@ -31,54 +21,20 @@ const DynamicForm = ({
   formButtons = null,
   extraItems,
   fieldsPerRow = 2,
-  // Props إضافية لدعم رفع الحالة
   formData: externalFormData,
   setFormData: externalSetFormData,
 }) => {
-  // الحالة الداخلية تُستخدم فقط لو مفيش حالة مرفوعة (props)
   const [internalFormData, setInternalFormData] = useState({});
-
-  // اختار الحالة المناسبة: مرفوعة أو داخلية
   const formData = externalFormData ?? internalFormData;
   const setFormData = externalSetFormData ?? setInternalFormData;
-
-  const [attachments, setAttachments] = useState([]);
-  const [attachmentInput, setAttachmentInput] = useState({
-    category: "",
-    value: "",
-  });
 
   const handleChange = (name, value) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAttachmentInputChange = (field, value) => {
-    setAttachmentInput((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleAddAttachment = () => {
-    if (attachmentInput.category && attachmentInput.value) {
-      const newAttachment = {
-        id: Date.now(),
-        category: attachmentInput.category,
-        value: attachmentInput.value,
-      };
-      setAttachments((prev) => [...prev, newAttachment]);
-      setAttachmentInput({ category: "", value: "" });
-    }
-  };
-
-  const handleRemoveAttachment = (id) => {
-    setAttachments((prev) => prev.filter((item) => item.id !== id));
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const submitData = {
-      ...formData,
-      serviceAttachments: attachments.map(({ id, ...rest }) => rest),
-    };
-    onSubmit(submitData);
+    onSubmit(formData);
   };
 
   return (
@@ -93,11 +49,17 @@ const DynamicForm = ({
         }}
       >
         {fields?.map((field) => {
-          const { name, label, type, required, options, sx, variant = "outlined" } = field;
-
-          if (label === "الملحقات المضافة") {
-            return null;
-          }
+          const {
+            name,
+            label,
+            type,
+            required,
+            options,
+            sx,
+            variant = "outlined",
+            getOptionLabel,
+            isOptionEqualToValue,
+          } = field;
 
           if (type === "select" || type === "multiselect") {
             return (
@@ -149,8 +111,8 @@ const DynamicForm = ({
                   }
                 >
                   {options.map((opt) => (
-                    <MenuItem key={opt} value={opt}>
-                      {opt}
+                    <MenuItem key={opt?.value || opt} value={opt?.value || opt}>
+                      {opt?.label || opt}
                     </MenuItem>
                   ))}
                 </Select>
@@ -163,7 +125,10 @@ const DynamicForm = ({
               <FormControlLabel
                 key={name}
                 control={
-                  <Checkbox checked={formData[name] || false} onChange={(e) => handleChange(name, e.target.checked)} />
+                  <Checkbox
+                    checked={formData[name] || false}
+                    onChange={(e) => handleChange(name, e.target.checked)}
+                  />
                 }
                 label={label}
                 labelPlacement="start"
@@ -182,7 +147,10 @@ const DynamicForm = ({
               <FormControlLabel
                 key={name}
                 control={
-                  <Switch checked={formData[name] || false} onChange={(e) => handleChange(name, e.target.checked)} />
+                  <Switch
+                    checked={formData[name] || false}
+                    onChange={(e) => handleChange(name, e.target.checked)}
+                  />
                 }
                 label={label}
                 labelPlacement="start"
@@ -200,22 +168,40 @@ const DynamicForm = ({
             return (
               <Autocomplete
                 key={name}
-                options={field.options || []}
-                getOptionLabel={field.getOptionLabel || ((option) => option.label || option)} // default
+                options={options || []}
+                getOptionLabel={getOptionLabel || ((option) => option.label || option)}
                 value={formData[name] || null}
                 onChange={(e, newValue) => handleChange(name, newValue)}
                 sx={{ ...sx, minWidth: 120 }}
-                renderInput={(params) => <TextField {...params} label={label} required={required} variant={variant} />}
-                isOptionEqualToValue={(option, value) => {
-                  // to avoid MUI warning if objects used as values
-                  return field.isOptionEqualToValue
-                    ? field.isOptionEqualToValue(option, value)
-                    : option?.value === value?.value || option === value;
-                }}
+                renderInput={(params) => (
+                  <TextField {...params} label={label} required={required} variant={variant} />
+                )}
+                isOptionEqualToValue={
+                  isOptionEqualToValue
+                    ? isOptionEqualToValue
+                    : (option, value) => option?.value === value?.value
+                }
               />
             );
           }
 
+          if (type === "file") {
+            return (
+              <TextField
+                key={name}
+                label={label}
+                type="file"
+                required={required}
+                variant={variant}
+                onChange={(e) => handleChange(name, e.target.files[0])}
+                sx={{ ...sx, minWidth: 120 }}
+                style={fieldWrapperStyle}
+                InputLabelProps={{ shrink: true }}
+              />
+            );
+          }
+
+          // Default input (text, email, number, etc.)
           return (
             <TextField
               key={name}
@@ -232,69 +218,7 @@ const DynamicForm = ({
           );
         })}
       </Box>
-      {/* {fields?.map((field) => {
-        if (field.label === "الملحقات المضافة") {
-          const { name, label, sx, variant = "outlined" } = field;
-          return (
-            <Box key={name} sx={{ ...sx }} style={fieldWrapperStyle}>
-              <Typography variant="h6" sx={{ mb: 2 }}>
-                {label}
-              </Typography>
-              <Box sx={{ display: "flex", gap: 2, mb: 2, alignItems: "center" }}>
-                <TextField
-                  label="الصنف"
-                  value={attachmentInput.category}
-                  onChange={(e) => handleAttachmentInputChange("category", e.target.value)}
-                  variant={variant}
-                  sx={{ flex: 1 }}
-                />
-                <TextField
-                  label="القيمة"
-                  value={attachmentInput.value}
-                  onChange={(e) => handleAttachmentInputChange("value", e.target.value)}
-                  variant={variant}
-                  sx={{ flex: 1 }}
-                />
-                <Button
-                  variant="contained"
-                  onClick={handleAddAttachment}
-                  startIcon={<AddIcon />}
-                  disabled={!attachmentInput.category || !attachmentInput.value}
-                >
-                  إضافة
-                </Button>
-              </Box>
-              {attachments.length > 0 && (
-                <TableContainer component={Paper} sx={{ mt: 2 }}>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="right">الصنف</TableCell>
-                        <TableCell align="right">القيمة</TableCell>
-                        <TableCell align="center">الإجراءات</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {attachments.map((attachment) => (
-                        <TableRow key={attachment.id}>
-                          <TableCell align="right">{attachment.category}</TableCell>
-                          <TableCell align="right">{attachment.value}</TableCell>
-                          <TableCell align="center">
-                            <IconButton color="error" onClick={() => handleRemoveAttachment(attachment.id)}>
-                              <DeleteIcon />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              )}
-            </Box>
-          );
-        }
-        return null;
-      })} */}
+
       {extraItems}
       <Box sx={{ display: "flex", justifyContent: "start", gap: 2 }}>{formButtons}</Box>
     </form>

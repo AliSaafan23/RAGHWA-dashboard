@@ -33,6 +33,7 @@ import Header from "../Header";
 import ExportDataButton from "../common/ExportDataButton";
 import ImportDataButton from "../common/ImportDataButton";
 import { COLORS } from "../../constants";
+import { useGetAllStoragesQuery } from "../../redux/Slices/storage";
 const branchesNames = [
   { label: "الفرع الرئيسي", value: "main" },
   { label: "فرع الشرق", value: "east" },
@@ -101,53 +102,7 @@ const StorageController = () => {
   ];
 
   // Initial sample data for storages
-  const [storages, setStorages] = useState([
-    {
-      id: 1,
-      storageName: "المستودع الرئيسي",
-      storageType: "رئيسي",
-      branch: "الفرع الرئيسي",
-      itemsCount: 250,
-      manager: "أحمد محمد",
-      status: "نشط",
-    },
-    {
-      id: 2,
-      storageName: "مستودع الزيوت",
-      storageType: "مخزن زيوت",
-      branch: "فرع الشرق",
-      itemsCount: 85,
-      manager: "خالد علي",
-      status: "نشط",
-    },
-    {
-      id: 3,
-      storageName: "مستودع المواد",
-      storageType: "مخزن مواد",
-      branch: "فرع الغرب",
-      itemsCount: 150,
-      manager: "سارة أحمد",
-      status: "مغلق",
-    },
-    {
-      id: 4,
-      storageName: "المستودع الفرعي الأول",
-      storageType: "فرعي",
-      branch: "فرع الشمال",
-      itemsCount: 120,
-      manager: "محمد يوسف",
-      status: "نشط",
-    },
-    {
-      id: 5,
-      storageName: "المستودع الفرعي الثاني",
-      storageType: "فرعي",
-      branch: "الفرع الرئيسي",
-      itemsCount: 95,
-      manager: "فاطمة حسن",
-      status: "نشط",
-    },
-  ]);
+    const { data: storages, isLoading: isStoragesLoading, error: storagesError } = useGetAllStoragesQuery();
 
   const handleAddStorage = (formData) => {
     console.log("New storage data:", formData);
@@ -361,7 +316,7 @@ const StorageController = () => {
       <Header title="إدارة المستودعات" btnTitle="إضافة مستودع" setOpen={setOpen} />
 
       <Box sx={{ display: "flex", gap: 2, mb: 1 }}>
-        <ExportDataButton data={storages} filename="storage_data.csv" mapDataToCSV={mapStorageDataToCSV} />
+        <ExportDataButton data={storages?.data} filename="storage_data.csv" mapDataToCSV={mapStorageDataToCSV} />
         <ImportDataButton
           onDataImported={handleDataImported}
           parseCSV={parseStorageCSV}
@@ -371,7 +326,7 @@ const StorageController = () => {
 
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={storages}
+          rows={storages?.data}
           columns={columns}
           sx={{
             maxWidth: "100%",

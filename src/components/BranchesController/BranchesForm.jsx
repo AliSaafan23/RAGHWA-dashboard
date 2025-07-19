@@ -1,146 +1,171 @@
 import React, { useState } from "react";
-import DynamicForm from "../../custom/DynamicForm";
-import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material";
-import { COLORS } from "../../constants";
-const companyName = [
-  { label: "شركة 1", value: "1" },
-  { label: "شركة 2", value: "2" },
-  { label: "شركة 3", value: "3" },
-];
-const BranchFormFields = [
-  {
-    name: "name",
-    label: "اسم الفرع",
-    type: "text",
-    required: true,
-    placeholder: "أدخل اسم الفرع",
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-  {
-    name: "companyId",
-    label: "اختر الشركة",
-    type: "autocomplete",
-    options: companyName, // ممكن يكون array of strings أو array of objects
-    getOptionLabel: (option) => option.label, // لو object
-    isOptionEqualToValue: (option, value) => option.label === value.label,
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-  {
-    name: "icon",
-    label: "رابط الأيقونة",
-    type: "file",
-    required: true,
-    placeholder: "أدخل رابط الأيقونة",
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-  {
-    name: "address",
-    label: "العنوان",
-    type: "text",
-    required: true,
-    placeholder: "أدخل العنوان",
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-  {
-    name: "phoneNumber",
-    label: "رقم الهاتف",
-    type: "text",
-    required: true,
-    placeholder: "مثال: 01012345678",
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-  {
-    name: "email",
-    label: "البريد الإلكتروني",
-    type: "email",
-    required: true,
-    placeholder: "example@email.com",
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-  {
-    name: "zone",
-    label: "المنطقة",
-    type: "text",
-    required: false,
-    placeholder: "اختياري",
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
+import { Dialog, DialogTitle, DialogContent, Button, TextField, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox, Box, Alert } from "@mui/material";
+import { useCreateBranchMutation } from "../../redux/Slices/branches";
+import { useGetAllCompaniesQuery } from "../../redux/Slices/companies";
 
-  {
-    name: "isActive",
-    label: "نشط",
-    type: "checkbox", // ممكن تعمله switch كمان حسب الـ UI
-    required: false,
-    defaultValue: true,
-    sx: { backgroundColor: "#f5f5f5", borderRadius: 2 },
-  },
-];
+export default function BranchesForm({ open, onClose }) {
+  const [formData, setForm] = useState({
+    name: "",
+    icon: null,
+    address: "",
+    phoneNumber: "",
+    email: "",
+    zone: "",
+    isActive: false,
+    companyId: "",
+  });
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [createBranch, { isLoading, error }] = useCreateBranchMutation();
+  const { data: companies, isLoading: isCompaniesLoading, error: companiesError } = useGetAllCompaniesQuery();
 
-export default function BranchesForm({ open, onClose, initialData }) {
-  const handleFormSubmit = (data) => {
-    // Add items to form data
-    console.log({ ...data, items });
-    onClose();
+  const handleChange = (name, value) => {
+    if (name === "icon" && value && !/jpeg|jpg|png/.test(value.type)) {
+      setErrorMessage("يرجى اختيار صورة بصيغة JPEG أو PNG");
+      return;
+    }
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    console.log("تغيير:", name, value instanceof File ? "[File]" : value); // Debug log
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage(null);
+
+    if (!formData.name || !formData.icon || !formData.address || !formData.phoneNumber || !formData.email || !formData.companyId) {
+      setErrorMessage("يرجى ملء جميع الحقول المطلوبة");
+      return;
+    }
+
+    const formDataToSend = new FormData();
+    Object.keys(formData).forEach((key) => {
+      formDataToSend.append(key, formData[key]);
+    });
+
+    try {
+      console.log("FormData:", [...formDataToSend.entries()].map(([k, v]) => `${k}=${v instanceof File ? "[File]" : v}`));
+      const response = await createBranch(formDataToSend).unwrap();
+      console.log("Response:", response);
+      onClose();
+    } catch (err) {
+      console.error("Creating branch failed:", err);
+      setErrorMessage(err.data?.message || "فشل إنشاء الفرع");
+    }
   };
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg" dir="rtl">
       <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30 }}>اضافة فرع جديدة</DialogTitle>
       <DialogContent sx={{ backgroundColor: "#fafafa", borderRadius: 2 }}>
-        <DynamicForm
-          fields={BranchFormFields}
-          onSubmit={handleFormSubmit}
-          initialValues={initialData || {}}
-          formStyle={{
-            backgroundColor: "#fafafa",
-            padding: 0,
-            borderRadius: 8,
-            width: "100%",
-          }}
-          fieldWrapperStyle={{ marginBottom: 10 }}
-          showdetailed={false}
-          onCancel={onClose}
-          formButtons={[
-            <Button
-              key="save"
-              variant="contained"
-              sx={{
-                backgroundColor: COLORS.PRIMARY,
-                px: 5,
-                py: 1.5,
-                fontWeight: "bold",
-                "&:hover": {
-                  backgroundColor: "#fff",
-                  color: COLORS.PRIMARY,
-                },
-              }}
-              type="submit"
-            >
-              حفظ
-            </Button>,
-            <Button
-              key="cancel"
-              variant="contained"
-              sx={{
-                backgroundColor: "#ffffff",
-                color: COLORS.PRIMARY,
-                px: 5,
-                py: 1.5,
-                fontWeight: "bold",
-                border: "1px solid #1976d2",
-                "&:hover": {
-                  backgroundColor: COLORS.PRIMARY,
-                  color: "#fff",
-                },
-              }}
-              onClick={() => onClose(false)}
-              type="button"
-            >
-              الغاء
-            </Button>,
-          ]}
-          fieldsPerRow={1}
-        />
+        {errorMessage && <Alert severity="error" sx={{ mb: 2 }}>{errorMessage}</Alert>}
+        {companiesError && <Alert severity="error" sx={{ mb: 2 }}>خطأ في جلب الشركات: {companiesError.message}</Alert>}
+        <div className="App">
+          <div className="modern-form">
+            <form onSubmit={handleSubmit}>
+              <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2, mb: 2, marginTop: 2, alignItems: "center" }}>
+                <TextField
+                  label="اسم الفرع"
+                  name="name"
+                  value={formData.name}
+                  onChange={(e) => handleChange("name", e.target.value)}
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  sx={{ backgroundColor: "#f5f5f5", borderRadius: 2 }}
+                  required
+                />
+                <FormControl fullWidth margin="normal" variant="outlined" sx={{ backgroundColor: "#f5f5f5", borderRadius: 2 }}>
+                  <InputLabel>اختر الشركة</InputLabel>
+                  <Select
+                    label="اختر الشركة"
+                    name="companyId"
+                    value={formData.companyId}
+                    onChange={(e) => handleChange("companyId", e.target.value)}
+                    sx={{ height: "56px" }}
+                    required
+                    disabled={isCompaniesLoading}
+                  >
+                    {isCompaniesLoading ? (
+                      <MenuItem disabled>جاري تحميل الشركات...</MenuItem>
+                    ) : (
+                      companies?.data?.map((company) => (
+                        <MenuItem key={company.id} value={company.id.toString()}>
+                          {company.name}
+                        </MenuItem>
+                      ))
+                    )}
+                  </Select>
+                </FormControl>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <input
+                    type="file"
+                    name="icon"
+                    accept="image/jpeg,image/png"
+                    onChange={(e) => handleChange("icon", e.target.files[0])}
+                    style={{ backgroundColor: "#f5f5f5", borderRadius: "8px", padding: "16.5px 14px", width: "100%", border: "1px solid #c4c4c4" }}
+                    required
+                  />
+                </Box>
+                <TextField
+                  label="رقم الهاتف"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={(e) => handleChange("phoneNumber", e.target.value)}
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  sx={{ backgroundColor: "#f5f5f5", borderRadius: 2 }}
+                  required
+                />
+                <TextField
+                  label="البريد الإلكتروني"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleChange("email", e.target.value)}
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  sx={{ backgroundColor: "#f5f5f5", borderRadius: 2 }}
+                  required
+                />
+                <TextField
+                  label="العنوان"
+                  name="address"
+                  value={formData.address}
+                  onChange={(e) => handleChange("address", e.target.value)}
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  sx={{ backgroundColor: "#f5f5f5", borderRadius: 2 }}
+                  required
+                />
+                <TextField
+                  label="المنطقة"
+                  name="zone"
+                  value={formData.zone}
+                  onChange={(e) => handleChange("zone", e.target.value)}
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  sx={{ backgroundColor: "#f5f5f5", borderRadius: 2 }}
+                />
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <FormControlLabel
+                    control={<Checkbox checked={formData.isActive} onChange={(e) => handleChange("isActive", e.target.checked)} />}
+                    label="نشط"
+                  />
+                </Box>
+              </Box>
+              <Box sx={{ display: "flex", justifyContent: "flex-start", gap: 2 }}>
+                <Button type="submit" variant="contained" color="primary" disabled={isLoading}>حفظ</Button>
+                <Button type="button" variant="outlined" color="primary" onClick={onClose}>الغاء</Button>
+              </Box>
+            </form>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
