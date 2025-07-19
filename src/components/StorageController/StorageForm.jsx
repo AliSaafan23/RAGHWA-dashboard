@@ -14,10 +14,10 @@ import {
   Box,
   Alert,
 } from "@mui/material";
-import { useCreateBranchMutation } from "../../redux/Slices/branches";
-import { useGetAllCompaniesQuery } from "../../redux/Slices/companies";
+import { useGetAllBranchesQuery } from "../../redux/Slices/branches";
+import { useCreateStorageMutation } from "../../redux/Slices/storage";
 
-export default function BranchesForm({ open, onClose }) {
+export default function StorageForm({ open, onClose }) {
   const [formData, setForm] = useState({
     name: "",
     icon: null,
@@ -26,12 +26,11 @@ export default function BranchesForm({ open, onClose }) {
     email: "",
     zone: "",
     isActive: false,
-    companyId: "",
+    branchId: "",
   });
   const [errorMessage, setErrorMessage] = useState(null);
-  const [createBranch, { isLoading, error }] = useCreateBranchMutation();
-  const { data: companies, isLoading: isCompaniesLoading, error: companiesError } = useGetAllCompaniesQuery();
-  console.log("Companies Data:", companies); // Debug log
+  const [createStorage, { isLoading, error }] = useCreateStorageMutation();
+  const { data: branches, isLoading: isbranchesLoading, error: branchesError } = useGetAllBranchesQuery();
 
   const handleChange = (name, value) => {
     if (name === "icon" && value && !/jpeg|jpg|png/.test(value.type)) {
@@ -55,7 +54,7 @@ export default function BranchesForm({ open, onClose }) {
       !formData.address ||
       !formData.phoneNumber ||
       !formData.email ||
-      !formData.companyId
+      !formData.branchId
     ) {
       setErrorMessage("يرجى ملء جميع الحقول المطلوبة");
       return;
@@ -71,27 +70,26 @@ export default function BranchesForm({ open, onClose }) {
         "FormData:",
         [...formDataToSend.entries()].map(([k, v]) => `${k}=${v instanceof File ? "[File]" : v}`)
       );
-      const response = await createBranch(formDataToSend).unwrap();
+      const response = await createStorage(formDataToSend).unwrap();
       console.log("Response:", response);
       onClose();
     } catch (err) {
       console.error("Creating branch failed:", err);
-      setErrorMessage(err.data?.message || "فشل إنشاء الفرع");
+      setErrorMessage(err.data?.message || "فشل إنشاء المخزن");
     }
   };
-
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg" dir="rtl">
-      <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30 }}>اضافة فرع جديدة</DialogTitle>
+      <DialogTitle sx={{ color: "#185BAA", fontWeight: "bold", fontSize: 30 }}>اضافة مخزن جديدة</DialogTitle>
       <DialogContent sx={{ backgroundColor: "#fafafa", borderRadius: 2 }}>
         {errorMessage && (
           <Alert severity="error" sx={{ mb: 2 }}>
             {errorMessage}
           </Alert>
         )}
-        {companiesError && (
+        {branchesError && (
           <Alert severity="error" sx={{ mb: 2 }}>
-            خطأ في جلب الشركات: {companiesError.message}
+            خطأ في جلب الفروع: {branchesError.message}
           </Alert>
         )}
         <div className="App">
@@ -108,7 +106,7 @@ export default function BranchesForm({ open, onClose }) {
                 }}
               >
                 <TextField
-                  label="اسم الفرع"
+                  label="اسم المخزن"
                   name="name"
                   value={formData.name}
                   onChange={(e) => handleChange("name", e.target.value)}
@@ -124,20 +122,20 @@ export default function BranchesForm({ open, onClose }) {
                   variant="outlined"
                   sx={{ backgroundColor: "#f5f5f5", borderRadius: 2 }}
                 >
-                  <InputLabel>اختر الشركة</InputLabel>
+                  <InputLabel>اختر الفرع</InputLabel>
                   <Select
-                    label="اختر الشركة"
-                    name="companyId"
-                    value={formData.companyId}
-                    onChange={(e) => handleChange("companyId", e.target.value)}
+                    label="اختر الفرع"
+                    name="branchId"
+                    value={formData.branchId}
+                    onChange={(e) => handleChange("branchId", e.target.value)}
                     sx={{ height: "56px" }}
                     required
-                    disabled={isCompaniesLoading}
+                    disabled={isbranchesLoading}
                   >
-                    {isCompaniesLoading ? (
-                      <MenuItem disabled>جاري تحميل الشركات...</MenuItem>
+                    {isbranchesLoading ? (
+                      <MenuItem disabled>جاري تحميل الفروع...</MenuItem>
                     ) : (
-                      companies?.data?.map((company) => (
+                      branches?.data?.map((company) => (
                         <MenuItem key={company.id} value={company.id.toString()}>
                           {company.name}
                         </MenuItem>
@@ -195,16 +193,7 @@ export default function BranchesForm({ open, onClose }) {
                   sx={{ backgroundColor: "#f5f5f5", borderRadius: 2 }}
                   required
                 />
-                <TextField
-                  label="المنطقة"
-                  name="zone"
-                  value={formData.zone}
-                  onChange={(e) => handleChange("zone", e.target.value)}
-                  fullWidth
-                  margin="normal"
-                  variant="outlined"
-                  sx={{ backgroundColor: "#f5f5f5", borderRadius: 2 }}
-                />
+
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <FormControlLabel
                     control={

@@ -4,19 +4,18 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Table from "./Table";
-import BranchesForm from "./BranchesForm";
 import Header from "../Header";
 import ExportDataButton from "../common/ExportDataButton";
 import ImportDataButton from "../common/ImportDataButton";
-import { useGetAllBranchesQuery } from "../../redux/Slices/branches";
+import StorageForm from "./StorageForm";
+import { useGetAllStoragesQuery } from "../../redux/Slices/storage";
 
 const columns = [
-  { field: "id", headerName: "رقم الفرع", width: 80 },
-  { field: "name", headerName: "اسم الفرع", width: 150 },
+  { field: "id", headerName: "رقم المخزن", width: 80 },
+  { field: "name", headerName: "اسم المخزن", width: 150 },
   { field: "address", headerName: "العنوان", width: 200 },
   { field: "phoneNumber", headerName: "رقم الهاتف", width: 150 },
   { field: "email", headerName: "البريد الإلكتروني", width: 200 },
-  { field: "zone", headerName: "المنطقة", width: 120 },
   {
     field: "isActive",
     headerName: "نشط",
@@ -24,8 +23,8 @@ const columns = [
     type: "boolean",
   },
   {
-    field: "companyId",
-    headerName: "رقم الشركة",
+    field: "branchId",
+    headerName: "رقم الفرع",
     width: 120,
   },
   {
@@ -71,9 +70,9 @@ const columns = [
   },
 ];
 
-export default function Branches() {
-  const { data: branches, isLoading: isBranchesLoading, error: branchesError } = useGetAllBranchesQuery();
-  console.log("pla", branches);
+export default function Storage() {
+  const { data: storages, isLoading: isstoragesLoading, error: storagesError } = useGetAllStoragesQuery();
+
   const [open, setOpen] = useState(false);
   const mapGoodsDataToCSV = (data, headers) => {
     return [
@@ -129,12 +128,12 @@ export default function Branches() {
   };
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <Header title="  إدارة الفروع" btnTitle="اضافة فرع جديد" setOpen={setOpen} />
+      <Header title="  إدارة المخازن" btnTitle="اضافة مخزن جديد" setOpen={setOpen} />
 
       {/* Export/Import Buttons */}
       <Box sx={{ display: "flex", gap: 2, mb: 1 }}>
         <ExportDataButton
-          data={branches?.data}
+          data={storages?.data}
           filename="goods_first_time_data.csv"
           mapDataToCSV={mapGoodsDataToCSV}
           buttonText="تصدير بيانات"
@@ -148,8 +147,8 @@ export default function Branches() {
       </Box>
 
       {/* <Filter inputs={InventoryFilters} /> */}
-      <Table rows={branches?.data} columns={columns} />
-      <BranchesForm open={open} onClose={setOpen} />
+      <Table rows={storages?.data} columns={columns} />
+      <StorageForm open={open} onClose={setOpen} />
     </Box>
   );
 }
