@@ -1,9 +1,10 @@
 import { Box } from "@mui/material";
 import CategoryController from "../components/CategoryController/CategoryController";
-import StorageController from "../components/StorageController/StorageController";
+import StorageController from "../components/StorageController/Storage";
 import TabBarComponent from "../components/TabBarComponent";
 import GoodFristTime from "../components/GoodsForTheFirstTime/GoodFristTime";
 import Branches from "../components/BranchesController/Branches";
+import Storage from "../components/StorageController/Storage";
 
 const StorageManagement = () => {
   const tabs = [
@@ -15,7 +16,7 @@ const StorageManagement = () => {
 
   const tabPanels = [
     { value: "1", component: <Branches /> },
-    { value: "2", component: <StorageController /> },
+    { value: "2", component: <Storage /> },
     { value: "3", component: <CategoryController /> },
     { value: "4", component: <GoodFristTime /> },
   ];
